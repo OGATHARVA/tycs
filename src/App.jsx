@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AccessibilityProvider } from './contexts/AccessibilityContext';
 import { VoiceProvider, useVoice } from './contexts/VoiceContext';
 import Navbar from './components/Navbar';
@@ -75,11 +75,11 @@ function AppShell() {
 export default function App() {
   return (
     <AccessibilityProvider>
-      <BrowserRouter>
+      <HashRouter>
         <VoiceProvider>
           <AppShell />
         </VoiceProvider>
-      </BrowserRouter>
+      </HashRouter>
     </AccessibilityProvider>
   );
 }
