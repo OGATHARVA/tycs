@@ -6,7 +6,6 @@ const WONT_DO    = ['Store or transmit your voice data', 'Record without your ex
 
 export default function MicPermissionModal({ onAllow, onSkip, denied = false }) {
   const firstFocusRef  = useRef(null);
-  const triggerRef     = useRef(null);
   const overlayRef     = useRef(null);
 
   /* Focus the primary button when modal opens */
@@ -49,7 +48,7 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/75 backdrop-blur-md"
+        className="absolute inset-0 bg-black/20"
         aria-hidden="true"
         onClick={onSkip}
       />
@@ -60,7 +59,7 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
         style={{
           background: 'var(--clr-bg-card)',
           border: '1px solid var(--clr-border)',
-          borderRadius: 'var(--radius-xl)',
+          borderRadius: 'var(--radius-lg)',
           boxShadow: 'var(--shadow-lg)',
           overflow: 'hidden',
         }}
@@ -71,8 +70,8 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
           style={{
             height: '4px',
             background: denied
-              ? 'linear-gradient(90deg,#f87171,#fbbf24)'
-              : 'var(--grad-primary)',
+              ? 'var(--clr-error)'
+              : 'var(--clr-primary)',
           }}
         />
 
@@ -84,8 +83,8 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
               style={{
                 width: '52px', height: '52px', flexShrink: 0,
                 borderRadius: 'var(--radius-md)',
-                background: denied ? 'rgba(248,113,113,0.15)' : 'rgba(56,189,248,0.12)',
-                border: `1px solid ${denied ? 'rgba(248,113,113,0.3)' : 'rgba(56,189,248,0.25)'}`,
+                background: denied ? 'rgba(239,68,68,0.1)' : 'rgba(59,130,246,0.1)',
+                border: `1px solid ${denied ? 'rgba(239,68,68,0.2)' : 'rgba(59,130,246,0.2)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: denied ? 'var(--clr-error)' : 'var(--clr-primary)',
               }}
@@ -106,7 +105,7 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
               >
                 {denied
                   ? 'Your browser has blocked microphone access. You can still use the Quick Commands buttons.'
-                  : 'VoiceNav needs microphone access to understand your voice commands. Your privacy is our priority.'}
+                  : 'TYCS needs microphone access to understand your voice commands. Your privacy is our priority.'}
               </p>
             </div>
 
@@ -138,7 +137,7 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
                   marginBottom: '1.5rem',
                 }}
               >
-                <div style={{ background: 'rgba(52,211,153,0.07)', border: '1px solid rgba(52,211,153,0.18)', borderRadius: 'var(--radius-md)', padding: '0.75rem' }}>
+                <div style={{ background: 'rgba(16,185,129,0.07)', border: '1px solid rgba(16,185,129,0.18)', borderRadius: 'var(--radius-md)', padding: '0.75rem' }}>
                   <p style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--clr-success)', marginBottom: '0.5rem' }}>
                     We will
                   </p>
@@ -152,7 +151,7 @@ export default function MicPermissionModal({ onAllow, onSkip, denied = false }) 
                   </ul>
                 </div>
 
-                <div style={{ background: 'rgba(248,113,113,0.06)', border: '1px solid rgba(248,113,113,0.18)', borderRadius: 'var(--radius-md)', padding: '0.75rem' }}>
+                <div style={{ background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.18)', borderRadius: 'var(--radius-md)', padding: '0.75rem' }}>
                   <p style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--clr-error)', marginBottom: '0.5rem' }}>
                     We won't
                   </p>

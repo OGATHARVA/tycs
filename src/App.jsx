@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AccessibilityProvider } from './contexts/AccessibilityContext';
 import { VoiceProvider, useVoice } from './contexts/VoiceContext';

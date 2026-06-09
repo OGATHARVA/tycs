@@ -39,7 +39,7 @@ class ErrorBoundary extends React.Component {
             width: '100%',
           }}>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ef4444', marginBottom: '1rem' }}>
-              ⚠️ VoiceNav Error
+              ⚠️ TYCS Error
             </h1>
             <p style={{ color: '#94a3b8', marginBottom: '1rem' }}>
               The app encountered an error during startup. Details below:

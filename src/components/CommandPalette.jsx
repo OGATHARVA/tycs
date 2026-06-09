@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { COMMANDS } from '../contexts/VoiceContext';
 import { getFeaturedWebsites } from '../utils/websiteDatabase';
-import { Search, Command, Globe, Mic, ArrowRight, X, Keyboard } from 'lucide-react';
+import { Search, Command, Globe, Mic, X, Keyboard } from 'lucide-react';
 
 /**
  * CommandPalette — Ctrl+K global command search overlay.
@@ -91,8 +91,8 @@ export default function CommandPalette({ processCommand }) {
   // Also listen for the custom event from voice "open palette" command
   useEffect(() => {
     const handler = () => { setOpen(true); setQuery(''); setSelected(0); };
-    window.addEventListener('voicenav:palette', handler);
-    return () => window.removeEventListener('voicenav:palette', handler);
+    window.addEventListener('tycs:palette', handler);
+    return () => window.removeEventListener('tycs:palette', handler);
   }, []);
 
   // Focus input when opened
@@ -184,16 +184,16 @@ export default function CommandPalette({ processCommand }) {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/20"
         onClick={() => setOpen(false)}
         aria-hidden="true"
       />
 
       {/* Palette */}
-      <div className="relative w-full max-w-xl bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+      <div className="relative w-full max-w-xl bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-xl shadow-lg overflow-hidden animate-fade-in">
 
         {/* Search Header */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--clr-border)] bg-gradient-to-r from-sky-500/5 to-violet-500/5">
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--clr-border)] bg-[var(--clr-bg-elevated)]">
           <Search size={16} className="text-[var(--clr-text-faint)] flex-shrink-0" aria-hidden="true" />
           <input
             ref={inputRef}

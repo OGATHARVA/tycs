@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Settings2, X, Type, Sun, Minus, Plus, RotateCcw,
-  ZoomIn, Underline, Focus, Eye, EyeOff, Zap, ZapOff, Globe,
+  ZoomIn, Focus, Eye, Zap, Globe,
 } from 'lucide-react';
 import { useAccessibility, LANGUAGE_OPTIONS } from '../contexts/AccessibilityContext';
 
@@ -19,6 +19,36 @@ const FOCUS_OPTIONS = [
   { value: 'enhanced', label: 'Enhanced' },
   { value: 'high',     label: 'Maximum'  },
 ];
+const Toggle = ({ label, checked, onChange, id, description }) => (
+  <div className="flex items-center justify-between py-2.5 border-b border-[var(--clr-border)] last:border-0">
+    <div>
+      <label htmlFor={id} className="text-sm font-medium text-[var(--clr-text)] cursor-pointer">
+        {label}
+      </label>
+      {description && (
+        <p id={`${id}-desc`} className="text-xs text-[var(--clr-text-muted)] mt-0.5">{description}</p>
+      )}
+    </div>
+    <button
+      id={id}
+      role="switch"
+      aria-checked={checked}
+      aria-describedby={description ? `${id}-desc` : undefined}
+      onClick={() => onChange(!checked)}
+      className={`relative inline-flex w-11 h-6 rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[var(--clr-primary)] flex-shrink-0 ml-3 ${
+        checked ? 'bg-[var(--clr-primary)]' : 'bg-[var(--clr-bg-elevated)]'
+      }`}
+    >
+      <span
+        className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
+          checked ? 'translate-x-5' : 'translate-x-0'
+        }`}
+        aria-hidden="true"
+      />
+      <span className="sr-only">{checked ? 'enabled' : 'disabled'}</span>
+    </button>
+  </div>
+);
 
 export default function AccessibilityPanel() {
   const { settings, update, reset } = useAccessibility();
@@ -67,37 +97,6 @@ export default function AccessibilityPanel() {
   const decrease = useCallback(() => { if (fontIdx > 0) update('fontSize', FONT_ORDER[fontIdx - 1]); }, [fontIdx, update]);
   const increase = useCallback(() => { if (fontIdx < FONT_ORDER.length - 1) update('fontSize', FONT_ORDER[fontIdx + 1]); }, [fontIdx, update]);
 
-  const Toggle = ({ label, checked, onChange, id, description }) => (
-    <div className="flex items-center justify-between py-2.5 border-b border-[var(--clr-border)] last:border-0">
-      <div>
-        <label htmlFor={id} className="text-sm font-medium text-[var(--clr-text)] cursor-pointer">
-          {label}
-        </label>
-        {description && (
-          <p id={`${id}-desc`} className="text-xs text-[var(--clr-text-muted)] mt-0.5">{description}</p>
-        )}
-      </div>
-      <button
-        id={id}
-        role="switch"
-        aria-checked={checked}
-        aria-describedby={description ? `${id}-desc` : undefined}
-        onClick={() => onChange(!checked)}
-        className={`relative inline-flex w-11 h-6 rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[var(--clr-primary)] flex-shrink-0 ml-3 ${
-          checked ? 'bg-[var(--clr-primary)]' : 'bg-[var(--clr-bg-elevated)]'
-        }`}
-      >
-        <span
-          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
-            checked ? 'translate-x-5' : 'translate-x-0'
-          }`}
-          aria-hidden="true"
-        />
-        <span className="sr-only">{checked ? 'enabled' : 'disabled'}</span>
-      </button>
-    </div>
-  );
-
   return (
     <>
       {/* ── Trigger button ────────────────────────────────────────── */}
@@ -111,7 +110,7 @@ export default function AccessibilityPanel() {
         title="Accessibility Settings"
         className={`fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg border ${
           open
-            ? 'bg-[var(--clr-primary)] text-[var(--clr-bg)] border-[var(--clr-primary)] shadow-[var(--shadow-glow-primary)]'
+            ? 'bg-[var(--clr-primary)] text-white border-[var(--clr-primary)] shadow-sm'
             : 'bg-[var(--clr-bg-card)] border-[var(--clr-border)] text-[var(--clr-text-muted)] hover:text-[var(--clr-primary)] hover:border-[var(--clr-primary)]'
         }`}
       >
@@ -126,12 +125,12 @@ export default function AccessibilityPanel() {
           role="dialog"
           aria-modal="false"
           aria-label="Accessibility settings panel"
-          className="fixed bottom-20 left-6 z-50 w-80 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-2xl shadow-2xl animate-fade-in overflow-hidden"
+          className="fixed bottom-20 left-6 z-50 w-80 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-xl shadow-lg animate-fade-in overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--clr-border)] bg-gradient-to-r from-sky-500/5 to-violet-500/5">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--clr-border)] bg-[var(--clr-bg-elevated)]">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-lg bg-[var(--clr-primary)] flex items-center justify-center">
                 <Eye size={14} className="text-white" aria-hidden="true" />
               </div>
               <div>
@@ -196,7 +195,7 @@ export default function AccessibilityPanel() {
                     aria-label={`Font size: ${label}`}
                     className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       settings.fontSize === value
-                        ? 'bg-[var(--clr-primary)] text-[var(--clr-bg)]'
+                        ? 'bg-[var(--clr-primary)] text-white'
                         : 'bg-[var(--clr-bg-elevated)] text-[var(--clr-text-muted)] hover:text-[var(--clr-primary)]'
                     }`}
                   >

@@ -27,7 +27,7 @@ export const domExecutor = {
       case 'OPEN_MENU':
         return this.openMenu();
       default:
-        console.warn('[VoiceNav DOM Executor] Unknown action:', action);
+        console.warn('[TYCS DOM Executor] Unknown action:', action);
         return false;
     }
   },
@@ -271,7 +271,7 @@ export const domExecutor = {
 
 // Event listener integration simulating extension content script message passing
 if (typeof window !== 'undefined') {
-  window.addEventListener('voicenav:action', (e) => {
+  window.addEventListener('tycs:action', (e) => {
     if (e.detail) {
       domExecutor.executeCommand(e.detail);
     }

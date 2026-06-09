@@ -6,22 +6,22 @@ import BrowserQuickAccess from './BrowserQuickAccess';
 import {
   Mic, MicOff, X, ChevronUp, ChevronDown,
   Volume2, Navigation, ArrowDownUp,
-  CheckCircle2, AlertCircle, Clock, Trash2, Zap, BookOpen, Globe, LayoutDashboard
+  CheckCircle2, AlertCircle, Clock, Trash2, Zap, BookOpen, Globe
 } from 'lucide-react';
 
 /* ─── MicButton Sub-Component ───────────────────────────────────── */
-function MicButton({ micBtnRef, onClick, status, isListening, isProcessing, isRequesting, isSuccess, isError }) {
+function MicButton({ micBtnRef, onClick, status: _status, isListening, isProcessing, isRequesting, isSuccess, isError }) {
   const micBtnClass = isListening
-    ? 'bg-[var(--clr-error)] shadow-[0_0_32px_rgba(248,113,113,0.6)] mic-btn-listening scale-110'
+    ? 'bg-[var(--clr-error)] shadow-sm mic-btn-listening'
     : isProcessing
-    ? 'bg-amber-500 shadow-[0_0_24px_rgba(245,158,11,0.5)]'
+    ? 'bg-amber-500 shadow-sm'
     : isRequesting
-    ? 'bg-[var(--clr-warning)] shadow-[0_0_20px_rgba(251,191,36,0.4)]'
+    ? 'bg-[var(--clr-warning)] shadow-sm'
     : isSuccess
-    ? 'bg-[var(--clr-success)] shadow-[0_0_24px_rgba(52,211,153,0.5)]'
+    ? 'bg-[var(--clr-success)] shadow-sm'
     : isError
-    ? 'bg-[var(--clr-error)] shadow-md'
-    : 'bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] shadow-[var(--shadow-glow-primary)] mic-btn-idle';
+    ? 'bg-[var(--clr-error)] shadow-sm'
+    : 'bg-[var(--clr-primary)] hover:bg-[var(--clr-primary-dim)] shadow-sm mic-btn-idle';
 
   return (
     <button
@@ -32,7 +32,7 @@ function MicButton({ micBtnRef, onClick, status, isListening, isProcessing, isRe
       aria-pressed={isListening}
       aria-busy={isProcessing || isRequesting}
       aria-describedby="voice-status-label"
-      className={`relative w-16 h-16 rounded-full flex items-center justify-center text-white transition-all duration-300 outline-none hover:scale-105 ${micBtnClass}`}
+      className={`relative w-16 h-16 rounded-full flex items-center justify-center text-white voice-mic-button outline-none ${micBtnClass}`}
     >
       {isListening ? (
         <span className="flex items-end gap-0.5 h-6" aria-hidden="true">
@@ -57,9 +57,10 @@ function MicButton({ micBtnRef, onClick, status, isListening, isProcessing, isRe
       ) : (
         <Mic size={24} aria-hidden="true" />
       )}
+      {/* Single smooth ring — replaces rapid animate-ping to stop vibration */}
       {isListening && (
         <span
-          className="absolute inset-0 rounded-full border-2 border-[var(--clr-error)] animate-ping opacity-60"
+          className="mic-ring"
           aria-hidden="true"
         />
       )}
@@ -162,10 +163,10 @@ function VoicePanel({
       id="voice-panel"
       role="complementary"
       aria-label="Voice recognition status and history"
-      className="fixed bottom-28 right-6 z-50 w-80 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-2xl shadow-2xl overflow-hidden animate-fade-in max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:w-full max-sm:rounded-t-2xl max-sm:border-t max-sm:border-b-0 max-sm:border-x-0"
+      className="fixed bottom-28 right-6 z-50 w-80 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-xl shadow-lg overflow-hidden animate-fade-in max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:w-full max-sm:rounded-t-xl max-sm:border-t max-sm:border-b-0 max-sm:border-x-0"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--clr-border)] bg-gradient-to-r from-sky-500/5 to-violet-500/5">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--clr-border)] bg-[var(--clr-bg-elevated)]">
         <div className="flex items-center gap-2">
           <div
             className="w-2 h-2 rounded-full transition-all duration-300"
@@ -416,14 +417,13 @@ export default function VoiceController({ onListeningChange }) {
   const {
     status, interimText, finalText, confidence, history, dispatchHistory,
     continuous, setContinuous, ttsEnabled, setTtsEnabled, isSpeaking,
-    langCode, startListening, stopListening, processCommand, stopSpeaking,
+    langCode, startListening, processCommand, stopSpeaking,
     micPermission, setMicPermission, showMicModal, setShowMicModal, requestMicAccess,
-    toast, setToast,
+    setToast,
   } = useVoice();
 
   // Lightweight toast helper to pass into sub-components
-  const toastRef = useRef(null);
-  const showToast = (msg, type = 'info', duration = 3500) => {
+  const showToast = (msg, type = 'info', _duration = 3500) => {
     if (setToast) { setToast({ msg, type, id: Date.now() }); }
   };
 
@@ -442,8 +442,8 @@ export default function VoiceController({ onListeningChange }) {
 
   useEffect(() => {
     const handleHelpEvent = () => setHelpOpen(true);
-    window.addEventListener('voicenav:help', handleHelpEvent);
-    return () => window.removeEventListener('voicenav:help', handleHelpEvent);
+    window.addEventListener('tycs:help', handleHelpEvent);
+    return () => window.removeEventListener('tycs:help', handleHelpEvent);
   }, []);
 
   // Keyboard navigation logic
@@ -510,7 +510,7 @@ export default function VoiceController({ onListeningChange }) {
           role="status"
           aria-live="polite"
           aria-atomic="true"
-          className="text-center text-[10px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap transition-all duration-300 border shadow-md"
+          className="text-center text-[10px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap transition-all duration-300 border shadow-sm"
           style={{ color: meta.color, background: meta.bg, borderColor: `${meta.color}30` }}
         >
           {isListening && <span aria-hidden="true">🎤 </span>}
@@ -551,8 +551,8 @@ export default function VoiceController({ onListeningChange }) {
       {/* Help Command modal */}
       {helpOpen && (
         <div role="dialog" aria-modal="true" aria-labelledby="help-dialog-title" className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setHelpOpen(false)} aria-hidden="true" />
-          <div ref={helpRef} className="relative bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-2xl shadow-2xl p-6 w-full max-w-lg animate-fade-in max-h-[80vh] flex flex-col">
+          <div className="absolute inset-0 bg-black/20" onClick={() => setHelpOpen(false)} aria-hidden="true" />
+          <div ref={helpRef} className="relative bg-[var(--clr-bg-card)] border border-[var(--clr-border)] rounded-xl shadow-lg p-6 w-full max-w-lg animate-fade-in max-h-[80vh] flex flex-col">
             <div className="flex items-center justify-between mb-5 flex-shrink-0">
               <h2 id="help-dialog-title" className="font-display text-lg font-bold text-[var(--clr-text)]">
                 <span className="gradient-text">Voice</span> Commands

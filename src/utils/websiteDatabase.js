@@ -1,5 +1,5 @@
 /**
- * VoiceNav Website Database — Configurable registry of popular websites.
+ * TYCS Website Database — Configurable registry of popular websites.
  * Maps spoken names / aliases to external URLs.
  * Extensible: just add more entries to WEBSITES.
  *

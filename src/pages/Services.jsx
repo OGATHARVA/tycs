@@ -11,7 +11,7 @@ const SERVICES = [
     title: 'Voice Command Engine',
     category: 'Navigation',
     badge: 'Core',
-    badgeColor: 'bg-sky-500/20 text-sky-400',
+    badgeColor: 'bg-blue-50 text-blue-600 border border-blue-100',
     rating: 5,
     desc: 'Real-time speech recognition using the Web Speech API, converting natural language into precise navigation actions with sub-100ms response time.',
     tags: ['Web Speech API', 'NLP', 'Real-time'],
@@ -21,9 +21,9 @@ const SERVICES = [
     title: 'Multi-Page Navigation',
     category: 'Navigation',
     badge: 'Popular',
-    badgeColor: 'bg-violet-500/20 text-violet-400',
+    badgeColor: 'bg-violet-50 text-violet-600 border border-violet-100',
     rating: 5,
-    desc: 'Hands-free traversal between all pages. Say "go to about", "go home", or "open contact" — VoiceNav handles the rest.',
+    desc: 'Hands-free traversal between all pages. Say "go to about", "go home", or "open contact" — TYCS handles the rest.',
     tags: ['React Router', 'SPA', 'Accessible'],
   },
   {
@@ -31,7 +31,7 @@ const SERVICES = [
     title: 'E-Commerce Voice Checkout',
     category: 'Commerce',
     badge: 'New',
-    badgeColor: 'bg-emerald-500/20 text-emerald-400',
+    badgeColor: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
     rating: 4,
     desc: 'Complete entire checkout flows using only voice. Add items, apply coupons, and confirm orders without touching your keyboard.',
     tags: ['Commerce', 'Forms', 'Voice Fill'],
@@ -51,7 +51,7 @@ const SERVICES = [
     title: 'Analytics Dashboard Control',
     category: 'Analytics',
     badge: 'Beta',
-    badgeColor: 'bg-amber-500/20 text-amber-400',
+    badgeColor: 'bg-amber-50 text-amber-600 border border-amber-100',
     rating: 4,
     desc: 'Navigate complex data dashboards using commands like "show last 30 days" or "filter by category". Data exploration, hands-free.',
     tags: ['Dashboards', 'Filters', 'Data'],
@@ -81,7 +81,7 @@ const SERVICES = [
     title: 'Mobile Voice Support',
     category: 'Navigation',
     badge: 'Mobile',
-    badgeColor: 'bg-pink-500/20 text-pink-400',
+    badgeColor: 'bg-pink-50 text-pink-600 border border-pink-100',
     rating: 4,
     desc: 'Optimised for touchscreen devices, with the mic button designed for one-handed use and high-contrast mobile focus rings.',
     tags: ['Mobile', 'Responsive', 'Touch'],
@@ -97,7 +97,7 @@ export default function Services() {
 
   /* Arrow-key navigation between category tabs */
   const handleTabKeyDown = (e, currentIndex) => {
-    let next = currentIndex;
+    let next;
     if (e.key === 'ArrowRight') next = (currentIndex + 1) % CATEGORIES.length;
     else if (e.key === 'ArrowLeft') next = (currentIndex - 1 + CATEGORIES.length) % CATEGORIES.length;
     else if (e.key === 'Home') next = 0;
@@ -109,20 +109,17 @@ export default function Services() {
   };
 
   return (
-    <main id="main-content" tabIndex="-1" aria-label="VoiceNav services page">
+    <main id="main-content" tabIndex="-1" aria-label="TYCS services page">
       {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="section pt-32 relative overflow-hidden" aria-labelledby="services-hero-heading">
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-sky-500/8 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-64 h-64 bg-violet-500/8 rounded-full blur-3xl" />
-        </div>
+
         <div className="container text-center">
           <p className="text-xs font-semibold text-[var(--clr-primary)] uppercase tracking-widest mb-4" aria-hidden="true">Our Services</p>
           <h1 id="services-hero-heading" className="font-display text-4xl sm:text-5xl font-bold mb-6">
             Accessibility <span className="gradient-text">Solutions</span>
           </h1>
           <p className="text-lg text-[var(--clr-text-muted)] max-w-2xl mx-auto">
-            From voice-powered navigation to full form control, VoiceNav provides a complete suite of tools
+            From voice-powered navigation to full form control, TYCS provides a complete suite of tools
             that transform any web application into a voice-accessible experience.
           </p>
         </div>
@@ -149,7 +146,7 @@ export default function Services() {
                 aria-label={`Filter services by category: ${cat}${cat === 'All' ? ' (show all)' : ''}`}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
                   activeCategory === cat
-                    ? 'bg-gradient-to-r from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] text-white border-transparent shadow-[var(--shadow-glow-primary)]'
+                    ? 'bg-[var(--clr-primary)] text-white border-transparent shadow-sm'
                     : 'bg-[var(--clr-bg-card)] border-[var(--clr-border)] text-[var(--clr-text-muted)] hover:border-[var(--clr-primary)] hover:text-[var(--clr-primary)]'
                 }`}
               >
@@ -182,8 +179,8 @@ export default function Services() {
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                    <Icon size={18} className="text-white" aria-hidden="true" />
+                  <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-[var(--clr-primary)] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                    <Icon size={18} aria-hidden="true" />
                   </div>
                   {badge && (
                     <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${badgeColor}`}>

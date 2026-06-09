@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { getFeaturedWebsites, getWebsites, getCategories } from '../utils/websiteDatabase';
+import { getFeaturedWebsites, getWebsites } from '../utils/websiteDatabase';
 import { Globe, ExternalLink, Search, ChevronDown, ChevronUp } from 'lucide-react';
 
 /**
@@ -12,7 +12,7 @@ export default function BrowserQuickAccess({ onSiteOpen }) {
   const [query, setQuery]       = useState('');
   const [expanded, setExpanded] = useState(false);
   const [recentSites, setRecentSites] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('voicenav:recentSites') || '[]'); }
+    try { return JSON.parse(localStorage.getItem('tycs:recentSites') || '[]'); }
     catch { return []; }
   });
 
@@ -33,7 +33,7 @@ export default function BrowserQuickAccess({ onSiteOpen }) {
     // Track recents (max 4, no duplicates)
     setRecentSites(prev => {
       const next = [site, ...prev.filter(s => s.url !== site.url)].slice(0, 4);
-      try { localStorage.setItem('voicenav:recentSites', JSON.stringify(next)); } catch (_) {}
+      try { localStorage.setItem('tycs:recentSites', JSON.stringify(next)); } catch { /* ignore storage errors */ }
       return next;
     });
   };

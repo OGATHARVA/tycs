@@ -31,18 +31,19 @@ const PRINCIPLES = [
 ];
 
 const TEAM = [
-  { name: 'Aria Chen',    role: 'Accessibility Lead',    initials: 'AC', color: 'from-sky-400 to-blue-500',     description: 'Leads WCAG research and inclusive design' },
-  { name: 'Marcus Webb',  role: 'Voice AI Engineer',     initials: 'MW', color: 'from-violet-400 to-purple-500', description: 'Builds the Web Speech API integration' },
-  { name: 'Sofia Okafor', role: 'UX & Inclusion Design', initials: 'SO', color: 'from-emerald-400 to-teal-500',  description: 'Creates user-centered, inclusive interfaces' },
-  { name: 'Liam Patel',   role: 'Frontend Engineer',     initials: 'LP', color: 'from-orange-400 to-amber-500',  description: 'Implements performant, accessible React components' },
+  { name: 'Aria Chen',    role: 'Accessibility Lead',    initials: 'AC', description: 'Leads WCAG research and inclusive design' },
+  { name: 'Marcus Webb',  role: 'Voice AI Engineer',     initials: 'MW', description: 'Builds the Web Speech API integration' },
+  { name: 'Sofia Okafor', role: 'UX & Inclusion Design', initials: 'SO', description: 'Creates user-centered, inclusive interfaces' },
+  { name: 'Liam Patel',   role: 'Frontend Engineer',     initials: 'LP', description: 'Implements performant, accessible React components' },
 ];
+
 
 export default function About() {
   return (
     <main
       id="main-content"
       tabIndex="-1"
-      aria-label="About VoiceNav page"
+      aria-label="About TYCS page"
     >
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
@@ -50,12 +51,10 @@ export default function About() {
         className="section pt-32 relative overflow-hidden"
         aria-labelledby="about-heading"
       >
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-20 right-10 w-72 h-72 bg-violet-500/8 rounded-full blur-3xl" />
-        </div>
+
         <div className="container max-w-3xl">
           <p className="text-xs font-semibold text-[var(--clr-accent)] uppercase tracking-widest mb-4" aria-hidden="true">
-            About VoiceNav
+            About TYCS
           </p>
           <h1
             id="about-heading"
@@ -64,7 +63,7 @@ export default function About() {
             The Web Belongs to <span className="gradient-text">Everyone</span>
           </h1>
           <p className="text-lg text-[var(--clr-text-muted)] leading-relaxed mb-4">
-            VoiceNav was founded on a simple belief: digital experiences should adapt to people, not
+            TYCS was founded on a simple belief: digital experiences should adapt to people, not
             the other way around. Whether you navigate with your hands, your eyes, or your voice —
             the web should be fully within reach.
           </p>
@@ -90,15 +89,15 @@ export default function About() {
           </h2>
           <ul
             className="grid grid-cols-1 sm:grid-cols-2 gap-5"
-            aria-label="VoiceNav core values"
+            aria-label="TYCS core values"
           >
             {VALUES.map(({ icon: Icon, title, desc }) => (
               <li key={title} className="card flex gap-4">
                 <div
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-[var(--clr-primary)] flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
                 >
-                  <Icon size={18} className="text-white" />
+                  <Icon size={18} />
                 </div>
                 <div>
                   <h3 className="font-display text-base font-bold text-[var(--clr-text)] mb-1">{title}</h3>
@@ -165,13 +164,13 @@ export default function About() {
           </h2>
           <ul
             className="grid grid-cols-2 sm:grid-cols-4 gap-5"
-            aria-label="VoiceNav team members"
+            aria-label="TYCS team members"
           >
             {TEAM.map(({ name, role, initials, color, description }) => (
               <li key={name} className="card text-center group">
                 {/* Avatar with initials — screen readers get the name */}
                 <div
-                  className={`w-14 h-14 rounded-full bg-gradient-to-br ${color} flex items-center justify-center text-white font-bold text-lg mx-auto mb-3 transition-transform duration-300 group-hover:scale-110`}
+                  className="w-14 h-14 rounded-full bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-[var(--clr-primary)] flex items-center justify-center font-bold text-lg mx-auto mb-3 transition-transform duration-300 group-hover:scale-105"
                   role="img"
                   aria-label={`Avatar for ${name}`}
                 >

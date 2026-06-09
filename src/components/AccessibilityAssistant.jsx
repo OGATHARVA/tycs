@@ -220,7 +220,7 @@ export default function AccessibilityAssistant() {
     recognitionRef.current = rec;
     try {
       rec.start();
-    } catch (_) {
+    } catch {
       setChatListening(false);
     }
   }, [chatListening, handleSend, stopSpeaking]);
@@ -244,8 +244,8 @@ export default function AccessibilityAssistant() {
         title="AI Accessibility Assistant"
         className={`fixed bottom-6 left-20 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg border ${
           open
-            ? 'bg-[#a855f7] text-[var(--clr-bg)] border-[#a855f7] shadow-[0_0_20px_rgba(168,85,247,0.5)]'
-            : 'bg-[var(--clr-bg-card)] border-[var(--clr-border)] text-[var(--clr-text-muted)] hover:text-[#a855f7] hover:border-[#a855f7]'
+            ? 'bg-[var(--clr-primary)] text-white border-[var(--clr-primary)] shadow-sm'
+            : 'bg-[var(--clr-bg-card)] border-[var(--clr-border)] text-[var(--clr-text-muted)] hover:text-[var(--clr-primary)] hover:border-[var(--clr-primary)]'
         }`}
       >
         {open ? <X size={18} aria-hidden="true" /> : <Bot size={18} aria-hidden="true" />}
@@ -259,12 +259,12 @@ export default function AccessibilityAssistant() {
           role="dialog"
           aria-modal="false"
           aria-label="AI accessibility assistant panel"
-          className="fixed top-0 left-0 h-screen w-[380px] z-50 bg-[var(--clr-bg-card)]/90 backdrop-blur-xl border-r border-[var(--clr-border)] shadow-2xl flex flex-col animate-slide-in-left overflow-hidden"
+          className="fixed top-0 left-0 h-screen w-[380px] z-50 bg-[var(--clr-bg-card)] border-r border-[var(--clr-border)] shadow-lg flex flex-col animate-slide-in-left overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--clr-border)] bg-gradient-to-r from-violet-500/5 to-fuchsia-500/5 flex-shrink-0">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--clr-border)] bg-[var(--clr-bg-elevated)] flex-shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#a855f7] to-[#ec4899] flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.3)]">
+              <div className="w-8 h-8 rounded-lg bg-[var(--clr-primary)] flex items-center justify-center">
                 <Bot size={16} className="text-white" aria-hidden="true" />
               </div>
               <div>
@@ -317,10 +317,10 @@ export default function AccessibilityAssistant() {
               >
                 {/* Message Bubble */}
                 <div
-                  className={`p-3 rounded-2xl text-xs leading-relaxed border transition-all ${
+                  className={`p-3 rounded-xl text-xs leading-relaxed border transition-all ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 border-violet-500/20 text-[var(--clr-text)] rounded-tr-none'
-                      : 'bg-[var(--clr-bg-root)] border-[var(--clr-border)] text-[var(--clr-text)] rounded-tl-none'
+                      ? 'bg-[var(--clr-primary)]/10 border-[var(--clr-primary)]/20 text-[var(--clr-text)] rounded-tr-none'
+                      : 'bg-[var(--clr-bg-elevated)] border-[var(--clr-border)] text-[var(--clr-text)] rounded-tl-none'
                   }`}
                 >
                   <p className="whitespace-pre-line">{msg.text}</p>
@@ -369,7 +369,7 @@ export default function AccessibilityAssistant() {
 
             {isTyping && (
               <div className="flex flex-col items-start max-w-[80%] mr-auto animate-pulse">
-                <div className="bg-[var(--clr-bg-root)] border border-[var(--clr-border)] p-3 rounded-2xl rounded-tl-none flex items-center gap-1">
+                <div className="bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] p-3 rounded-xl rounded-tl-none flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-[var(--clr-text-faint)] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="w-1.5 h-1.5 bg-[var(--clr-text-faint)] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                   <span className="w-1.5 h-1.5 bg-[var(--clr-text-faint)] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -403,7 +403,7 @@ export default function AccessibilityAssistant() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Ask accessibility assistant..."
-                className="w-full text-xs py-2.5 pl-3.5 pr-10 rounded-xl bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] focus:outline-none focus:border-[#a855f7] text-[var(--clr-text)] placeholder-[var(--clr-text-faint)]"
+                className="w-full text-xs py-2.5 pl-3.5 pr-10 rounded-xl bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] focus:outline-none focus:border-[var(--clr-primary)] text-[var(--clr-text)] placeholder-[var(--clr-text-faint)]"
               />
               
               <button
@@ -415,7 +415,7 @@ export default function AccessibilityAssistant() {
                 className={`absolute right-2.5 w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
                   chatListening
                     ? 'bg-[var(--clr-error)] text-white shadow-[0_0_10px_rgba(239,68,68,0.4)] animate-pulse'
-                    : 'text-[var(--clr-text-faint)] hover:text-[#a855f7]'
+                    : 'text-[var(--clr-text-faint)] hover:text-[var(--clr-primary)]'
                 }`}
               >
                 {chatListening ? <MicOff size={13} aria-hidden="true" /> : <Mic size={13} aria-hidden="true" />}
@@ -426,7 +426,7 @@ export default function AccessibilityAssistant() {
               type="submit"
               disabled={!query.trim()}
               aria-label="Send message to assistant"
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#a855f7] to-[#ec4899] text-white hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center shadow-md transition-all flex-shrink-0"
+              className="w-9 h-9 rounded-xl bg-[var(--clr-primary)] text-white hover:bg-[var(--clr-primary-dim)] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center shadow-sm transition-all flex-shrink-0"
             >
               <Send size={13} aria-hidden="true" />
             </button>

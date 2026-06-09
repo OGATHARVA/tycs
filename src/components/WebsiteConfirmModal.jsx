@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useVoice } from '../contexts/VoiceContext';
-import { Globe, X, Check, Search, AlertCircle } from 'lucide-react';
+import { Globe, X, Check, Search } from 'lucide-react';
 
 export default function WebsiteConfirmModal() {
   const {
@@ -87,31 +87,27 @@ export default function WebsiteConfirmModal() {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-300"
+        className="absolute inset-0 bg-black/20 transition-opacity duration-300"
         onClick={cancelPendingAction}
         aria-hidden="true"
       />
 
       {/* Modal Card */}
       <div
-        className="relative w-full max-w-sm overflow-hidden p-6 rounded-2xl border border-[var(--clr-border)] bg-[var(--clr-bg-card)] shadow-2xl animate-scale-up"
-        style={{
-          background: 'linear-gradient(135deg, rgba(13,21,38,0.95), rgba(26,37,64,0.95))',
-          backdropFilter: 'blur(16px)',
-        }}
+        className="relative w-full max-w-sm overflow-hidden p-6 rounded-xl border border-[var(--clr-border)] bg-[var(--clr-bg-card)] shadow-lg animate-scale-up"
       >
         {/* Top Gradient Bar */}
         <div
           className="absolute top-0 left-0 right-0 h-[3px]"
           style={{
-            background: type === 'confirm_open' ? 'var(--grad-success)' : 'var(--grad-primary)',
+            background: type === 'confirm_open' ? 'var(--clr-success)' : 'var(--clr-primary)',
           }}
         />
 
         {/* Close Button */}
         <button
           onClick={cancelPendingAction}
-          className="absolute top-4 right-4 text-[var(--clr-text-muted)] hover:text-white hover:bg-white/10 p-1.5 rounded-full transition-all"
+          className="absolute top-4 right-4 text-[var(--clr-text-muted)] hover:text-[var(--clr-text)] hover:bg-[var(--clr-bg-elevated)] p-1.5 rounded-full transition-all"
           aria-label="Cancel navigation"
         >
           <X size={16} />
@@ -120,7 +116,7 @@ export default function WebsiteConfirmModal() {
         {/* Main Content */}
         <div className="flex flex-col items-center text-center mt-2">
           {/* Web Icon/Favicon Indicator */}
-          <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 mb-4 text-3xl shadow-inner">
+          <div className="relative flex items-center justify-center w-16 h-16 rounded-xl bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] mb-4 text-3xl shadow-inner">
             {site?.icon || <Globe className="text-[var(--clr-primary)]" size={32} />}
             {type === 'confirm_open' && (
               <div className="absolute -bottom-2 -right-2 bg-[var(--clr-success)] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-[var(--clr-bg-card)] shadow">
@@ -141,7 +137,7 @@ export default function WebsiteConfirmModal() {
             {type === 'confirm_open' ? `Opening ${site?.label}` : `Did you mean ${site?.label}?`}
           </h2>
           
-          <p className="text-xs text-[var(--clr-text-muted)] font-mono bg-white/5 border border-white/5 px-2.5 py-1 rounded-lg mb-6 max-w-xs truncate">
+          <p className="text-xs text-[var(--clr-text-muted)] font-mono bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] px-2.5 py-1 rounded-lg mb-6 max-w-xs truncate">
             {site?.url?.replace(/^https?:\/\//, '')}
           </p>
 
@@ -152,7 +148,7 @@ export default function WebsiteConfirmModal() {
               <div className="relative w-16 h-16 mb-6 flex items-center justify-center">
                 <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
                   <circle
-                    stroke="rgba(255, 255, 255, 0.05)"
+                    stroke="var(--clr-border)"
                     fill="transparent"
                     strokeWidth={stroke}
                     r={normalizedRadius}
@@ -180,14 +176,14 @@ export default function WebsiteConfirmModal() {
                 <button
                   ref={firstFocusRef}
                   onClick={confirmPendingAction}
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-semibold bg-[var(--clr-success)] text-white hover:bg-[var(--clr-success)]/90 hover:scale-[1.02] transition-all shadow-lg shadow-[var(--clr-success)]/10"
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold bg-[var(--clr-success)] text-white hover:opacity-90 transition-all shadow-sm"
                 >
                   <Check size={14} />
                   Open Now
                 </button>
                 <button
                   onClick={cancelPendingAction}
-                  className="py-2.5 px-4 rounded-xl text-xs font-semibold bg-white/5 border border-white/10 text-[var(--clr-text-muted)] hover:text-white hover:bg-white/10 hover:scale-[1.02] transition-all"
+                  className="py-2.5 px-4 rounded-lg text-xs font-semibold bg-transparent border border-[var(--clr-border)] text-[var(--clr-text-muted)] hover:text-[var(--clr-text)] hover:bg-[var(--clr-bg-elevated)] transition-all"
                 >
                   Cancel
                 </button>
@@ -205,14 +201,14 @@ export default function WebsiteConfirmModal() {
                 <button
                   ref={firstFocusRef}
                   onClick={confirmPendingAction}
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-semibold bg-[var(--clr-primary)] text-[#0a0f1e] hover:bg-[var(--clr-primary)]/90 hover:scale-[1.02] transition-all shadow-lg shadow-[var(--clr-primary)]/10"
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold bg-[var(--clr-primary)] text-white hover:bg-[var(--clr-primary-dim)] transition-all shadow-sm"
                 >
                   <Check size={14} />
                   Yes, Open Website
                 </button>
                 <button
                   onClick={searchGoogleFallback}
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-semibold bg-white/5 border border-white/10 text-[var(--clr-text)] hover:text-white hover:bg-white/10 hover:scale-[1.02] transition-all"
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold bg-transparent border border-[var(--clr-border)] text-[var(--clr-text-muted)] hover:text-[var(--clr-text)] hover:bg-[var(--clr-bg-elevated)] transition-all"
                 >
                   <Search size={14} />
                   No, Search Google

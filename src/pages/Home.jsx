@@ -6,42 +6,36 @@ const FEATURES = [
     icon: Mic,
     title: 'Voice Navigation',
     desc: 'Navigate every page, click every link, and fill every form — all with natural voice commands.',
-    color: 'from-sky-500 to-blue-600',
     ariaLabel: 'Voice Navigation feature',
   },
   {
     icon: Keyboard,
     title: 'Keyboard First',
     desc: 'Every element is reachable via keyboard with clear, visible focus indicators.',
-    color: 'from-violet-500 to-purple-600',
     ariaLabel: 'Keyboard-first navigation feature',
   },
   {
     icon: Eye,
     title: 'Screen Reader Ready',
     desc: 'Semantic HTML and comprehensive ARIA attributes ensure screen readers work flawlessly.',
-    color: 'from-emerald-500 to-teal-600',
     ariaLabel: 'Screen reader compatibility feature',
   },
   {
     icon: Globe,
     title: 'Multi-Language',
     desc: 'Voice recognition supports 30+ languages, making the web inclusive worldwide.',
-    color: 'from-orange-500 to-amber-600',
     ariaLabel: 'Multi-language support feature',
   },
   {
     icon: Shield,
     title: 'WCAG 2.1 AA',
     desc: 'Built from the ground up to meet and exceed web content accessibility guidelines.',
-    color: 'from-pink-500 to-rose-600',
     ariaLabel: 'WCAG 2.1 AA compliance feature',
   },
   {
     icon: Zap,
     title: 'Instant Response',
     desc: 'Sub-100ms command processing delivers a seamless, frustration-free experience.',
-    color: 'from-yellow-500 to-orange-500',
     ariaLabel: 'Instant response performance feature',
   },
 ];
@@ -55,18 +49,14 @@ const STEPS = [
 
 export default function Home() {
   return (
-    <main id="main-content" tabIndex="-1" aria-label="VoiceNav home page">
+    <main id="main-content" tabIndex="-1" aria-label="TYCS home page">
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
         aria-labelledby="hero-heading"
       >
-        {/* Decorative blobs — hidden from assistive tech */}
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl" />
-        </div>
+
 
         <div className="container relative text-center">
           {/* Compliance badge */}
@@ -88,7 +78,7 @@ export default function Home() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-lg text-[var(--clr-text-muted)] mb-10 leading-relaxed animate-fade-in">
-            VoiceNav makes the internet accessible to everyone — whether you have mobility limitations,
+            TYCS makes the internet accessible to everyone — whether you have mobility limitations,
             visual impairments, or simply want a hands-free browsing experience.
           </p>
 
@@ -109,7 +99,7 @@ export default function Home() {
             <Link
               to="/about"
               className="btn btn-outline text-base py-3 px-6"
-              aria-label="Learn more about VoiceNav"
+              aria-label="Learn more about TYCS"
             >
               Learn More
               <ArrowRight size={18} aria-hidden="true" />
@@ -117,20 +107,9 @@ export default function Home() {
           </div>
 
           {/* Decorative animated orb — purely visual */}
-          <div
-            className="mt-16 flex items-center justify-center animate-float"
-            aria-hidden="true"
-            role="presentation"
-          >
-            <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-sky-500/20 to-violet-500/20 flex items-center justify-center border border-sky-500/20">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sky-500/30 to-violet-500/30 flex items-center justify-center border border-sky-500/30">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-violet-500 flex items-center justify-center shadow-[var(--shadow-glow-primary)]">
-                    <Volume2 size={18} className="text-white" />
-                  </div>
-                </div>
-              </div>
-              <div className="absolute inset-0 rounded-full border border-sky-400/20 animate-spin-slow" />
+          <div className="mt-16 flex items-center justify-center animate-float" aria-hidden="true">
+            <div className="w-16 h-16 rounded-full bg-[var(--clr-bg-card)] border border-[var(--clr-border)] shadow-sm flex items-center justify-center text-[var(--clr-primary)]">
+              <Volume2 size={24} />
             </div>
           </div>
         </div>
@@ -156,7 +135,7 @@ export default function Home() {
 
           <ol
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            aria-label="Step-by-step guide to using VoiceNav"
+            aria-label="Step-by-step guide to using TYCS"
           >
             {STEPS.map(({ step, title, desc }) => (
               <li
@@ -201,7 +180,7 @@ export default function Home() {
 
           <ul
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-            aria-label="VoiceNav accessibility features"
+            aria-label="TYCS accessibility features"
           >
             {FEATURES.map(({ icon: Icon, title, desc, color, ariaLabel }) => (
               <li
@@ -210,10 +189,10 @@ export default function Home() {
                 aria-label={ariaLabel}
               >
                 <div
-                  className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}
+                  className="w-11 h-11 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-[var(--clr-primary)] flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-105"
                   aria-hidden="true"
                 >
-                  <Icon size={20} className="text-white" />
+                  <Icon size={20} />
                 </div>
                 <h3 className="font-display text-base font-bold text-[var(--clr-text)] mb-2">{title}</h3>
                 <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed">{desc}</p>
@@ -223,53 +202,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────────── */}
-      <section
-        className="section-sm"
-        aria-labelledby="cta-heading"
-      >
-        <div className="container">
-          <div className="card text-center py-16 relative overflow-hidden">
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-violet-500/5 pointer-events-none"
-              aria-hidden="true"
-            />
-            <h2
-              id="cta-heading"
-              className="font-display text-3xl sm:text-4xl font-bold mb-4"
-            >
-              Ready to Navigate <span className="gradient-text">Hands-Free?</span>
-            </h2>
-            <p className="text-[var(--clr-text-muted)] max-w-md mx-auto mb-8">
-              Click the mic button in the bottom-right corner and say{' '}
-              <strong className="text-[var(--clr-primary)]">"Go to Services"</strong> to begin,
-              or try our accessibility settings panel on the bottom-left.
-            </p>
-            <div
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-              role="group"
-              aria-label="Call to action buttons"
-            >
-              <Link
-                to="/contact"
-                className="btn btn-primary text-base py-3 px-8"
-                aria-label="Navigate to the contact page to get in touch"
-              >
-                <Mic size={18} aria-hidden="true" />
-                Get in Touch
-              </Link>
-              <Link
-                to="/services"
-                className="btn btn-outline text-base py-3 px-8"
-                aria-label="View all available accessibility services"
-              >
-                View Services
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

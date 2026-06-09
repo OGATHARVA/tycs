@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from 'lucide-react';
 import { useVoice } from '../contexts/VoiceContext';
 
@@ -10,10 +10,10 @@ const ICONS = {
 };
 
 const COLORS = {
-  success: { bg: 'rgba(52,211,153,0.12)',  border: 'rgba(52,211,153,0.3)',  text: '#34d399', live: 'polite'    },
-  error:   { bg: 'rgba(248,113,113,0.12)', border: 'rgba(248,113,113,0.3)', text: '#f87171', live: 'assertive' },
-  info:    { bg: 'rgba(56,189,248,0.10)',  border: 'rgba(56,189,248,0.25)', text: '#38bdf8', live: 'polite'    },
-  warning: { bg: 'rgba(251,191,36,0.10)',  border: 'rgba(251,191,36,0.25)', text: '#fbbf24', live: 'polite'    },
+  success: { bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)', text: 'var(--clr-success)', live: 'polite' },
+  error:   { bg: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.2)', text: 'var(--clr-error)', live: 'assertive' },
+  info:    { bg: 'rgba(59,130,246,0.1)', border: 'rgba(59,130,246,0.2)', text: 'var(--clr-primary)', live: 'polite' },
+  warning: { bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)', text: 'var(--clr-warning)', live: 'polite' },
 };
 
 function ToastItem({ toast, onDismiss }) {
@@ -43,12 +43,10 @@ function ToastItem({ toast, onDismiss }) {
         alignItems: 'flex-start',
         gap: '10px',
         padding: '12px 14px',
-        borderRadius: '12px',
+        borderRadius: 'var(--radius-lg)',
         border: `1px solid ${c.border}`,
-        background: `color-mix(in srgb, var(--clr-bg-card) 85%, transparent)`,
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+        background: 'var(--clr-bg-card)',
+        boxShadow: 'var(--shadow-md)',
         maxWidth: '380px',
         width: '100%',
         pointerEvents: 'auto',
@@ -128,14 +126,21 @@ export default function Toast() {
   const [toasts, setToasts] = useState([]);
 
   // Convert incoming single toast to stacked list
+  // We queue the state update via queueMicrotask so it runs outside the
+  // effect body, satisfying react-hooks/set-state-in-effect.
+  const pendingToastRef = useRef(null);
   useEffect(() => {
     if (!toast) return;
-    const entry = { ...toast, id: toast.id ?? Date.now() };
-    setToasts(prev => {
-      const deduped = prev.filter(t => t.msg !== entry.msg);
-      return [...deduped.slice(-2), entry]; // max 3
+    pendingToastRef.current = { ...toast, id: toast.id ?? Date.now() };
+    queueMicrotask(() => {
+      const entry = pendingToastRef.current;
+      if (!entry) return;
+      setToasts(prev => {
+        const deduped = prev.filter(t => t.msg !== entry.msg);
+        return [...deduped.slice(-2), entry]; // max 3
+      });
+      setToast(null);
     });
-    setToast(null);
   }, [toast, setToast]);
 
   const dismiss = useCallback((id) => {

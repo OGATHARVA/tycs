@@ -37,13 +37,13 @@ const A11Y_QUESTIONS = [
 ];
 
 export function queryAssistant(rawQuery, context = {}) {
+  // eslint-disable-next-line no-misleading-character-class
   const query = rawQuery.toLowerCase().trim().replace(/[^a-zA-Z0-9\u0900-\u097F\s]/g, '');
-  const tokens = query.split(/\s+/).filter(Boolean);
-  const { pathname = '/', docText = '', docHeadings = [], a11ySettings = {} } = context;
+  const { pathname = '/', docHeadings = [], a11ySettings = {} } = context;
 
   // 1. Check for Out-of-Scope general chat queries
   const isOutOfScope = OUT_OF_SCOPE_WORDS.some(word => query.includes(word)) && 
-                      !['compliance', 'website', 'voicenav', 'team', 'email', 'contact', 'services'].some(w => query.includes(w));
+                      !['compliance', 'website', 'tycs', 'team', 'email', 'contact', 'services'].some(w => query.includes(w));
   if (isOutOfScope) {
     return {
       text: "I am your Accessibility Assistant, focused strictly on helping you navigate this site, understand voice commands, and adjust readability settings. I cannot answer general queries, but I can help you find contact info, summarize this page, or enable settings like High Contrast!",
@@ -200,8 +200,8 @@ export function queryAssistant(rawQuery, context = {}) {
 
   // 3. Summarize page content
   if (query.includes('summarize') || query.includes('summary') || (query.includes('what') && query.includes('about') && query.includes('page'))) {
-    let summaryText = "";
-    let pageName = "";
+    let summaryText;
+    let pageName;
     
     if (pathname === '/') {
       pageName = "Home";
@@ -214,7 +214,7 @@ export function queryAssistant(rawQuery, context = {}) {
       summaryText = "The Services page showcases our professional accessibility offerings: Auditing & Compliance, Custom Integration, and Training Workshops. It includes an interactive category filtering tab system (All, Design, Development, Strategy) to browse solutions.";
     } else if (pathname === '/contact') {
       pageName = "Contact";
-      summaryText = "The Contact page contains an interactive contact request form with built-in accessibility error summaries, our business email (contact@voicenav.dev), phone number (+1 555-019-2834), and physical office address in Tech City.";
+      summaryText = "The Contact page contains an interactive contact request form with built-in accessibility error summaries, our business email (contact@tycs.dev), phone number (+1 555-019-2834), and physical office address in Tech City.";
     } else if (pathname === '/dashboard') {
       pageName = "System Dashboard";
       summaryText = "The System Dashboard provides a professional monitor. It displays live voice microphone indicators, dynamic intent matching stats, total commands processed, overall success rate percentages, and active accessibility preference tokens.";
@@ -284,6 +284,13 @@ export function queryAssistant(rawQuery, context = {}) {
       suggestions: ["Summarize Dashboard", "Total voice commands?", "Enable high contrast"]
     };
   }
+  if (/\b(go to|navigate to|open|take me to|visit|load|show)\b.*\b(demo|live demo|interactive demo)\b/.test(query)) {
+    return {
+      text: "Certainly! Let's load the Live Demo page.",
+      action: { type: 'navigate', route: '/demo' },
+      suggestions: ["Summarize Demo page", "How to use voice controls", "Go to Services"]
+    };
+  }
 
   // 6. Voice commands explanations
   if (query.includes('command') || query.includes('phrases') || query.includes('voice control') || query.includes('speak') || query.includes('talk')) {
@@ -309,9 +316,9 @@ export function queryAssistant(rawQuery, context = {}) {
   }
 
   // 7. General site queries & Q&A
-  if (query.includes('what is') && (query.includes('website') || query.includes('voicenav') || query.includes('this project'))) {
+  if (query.includes('what is') && (query.includes('website') || query.includes('tycs') || query.includes('this project'))) {
     return {
-      text: "VoiceNav is an accessibility demonstration website. It lets users experience browsing without a keyboard or mouse, relying on Web Speech API voice matching. It also features font adjustments, contrast ratios, link underlining, and an audible text reader.",
+      text: "TYCS is an accessibility demonstration website. It lets users experience browsing without a keyboard or mouse, relying on Web Speech API voice matching. It also features font adjustments, contrast ratios, link underlining, and an audible text reader.",
       action: null,
       suggestions: ["What voice commands are there?", "Is this site WCAG compliant?", "Summarize this page"]
     };
@@ -322,7 +329,7 @@ export function queryAssistant(rawQuery, context = {}) {
   if (pathname === '/contact') {
     if (query.includes('email')) {
       return {
-        text: "Our contact email address is **contact@voicenav.dev**. We respond to inquiries within one business day.",
+        text: "Our contact email address is **contact@tycs.dev**. We respond to inquiries within one business day.",
         action: null,
         suggestions: ["What is the phone number?", "Office location?", "Summarize this page"]
       };

@@ -1,0 +1,20 @@
+
+C:\Users\athar\Downloads\VOICE CONTROLLED WEBSITE NAVIGATION 2\src\components\AccessibilityAssistant.jsx
+  223:14  warning  '_' is defined but never used  no-unused-vars
+
+C:\Users\athar\Downloads\VOICE CONTROLLED WEBSITE NAVIGATION 2\src\components\BrowserQuickAccess.jsx
+  36:90  warning  '_e' is defined but never used  no-unused-vars
+
+C:\Users\athar\Downloads\VOICE CONTROLLED WEBSITE NAVIGATION 2\src\components\Toast.jsx
+  133:27  error  'useRef' is not defined  no-undef
+
+C:\Users\athar\Downloads\VOICE CONTROLLED WEBSITE NAVIGATION 2\src\contexts\VoiceContext.jsx
+   547:14  warning  '_err' is defined but never used  no-unused-vars
+  1106:90  warning  '_e' is defined but never used    no-unused-vars
+  1111:12  warning  '_err' is defined but never used  no-unused-vars
+
+C:\Users\athar\Downloads\VOICE CONTROLLED WEBSITE NAVIGATION 2\src\pages\Landing.jsx
+  63:11  warning  '_isFloat' is assigned a value but never used  no-unused-vars
+
+✖ 7 problems (1 error, 6 warnings)
+

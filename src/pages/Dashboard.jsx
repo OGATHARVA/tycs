@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useVoice, STATUS_META } from '../contexts/VoiceContext';
 import { useAccessibility } from '../contexts/AccessibilityContext';
-import { Mic, Activity, Clock, Settings2, BarChart3, CheckCircle2, AlertCircle, RefreshCw, X } from 'lucide-react';
+import { Mic, Activity, Clock, Settings2, BarChart3, CheckCircle2, AlertCircle, X } from 'lucide-react';
 
 export default function Dashboard() {
   const { status, interimText, finalText, confidence, history, isSpeaking } = useVoice();
@@ -83,7 +83,7 @@ export default function Dashboard() {
                 <h2 className="font-bold text-lg">Live Recognition</h2>
               </div>
               
-              <div className="min-h-[120px] bg-[var(--clr-bg-root)] rounded-xl border border-[var(--clr-border)] p-4 flex flex-col justify-center relative overflow-hidden">
+              <div className="min-h-[120px] bg-[var(--clr-bg-elevated)] rounded-xl border border-[var(--clr-border)] p-4 flex flex-col justify-center relative overflow-hidden">
                 {(interimText || finalText) ? (
                   <div className="space-y-2 z-10">
                     {interimText && (
@@ -112,9 +112,9 @@ export default function Dashboard() {
                         className="w-4 bg-current rounded-t-full"
                         style={{
                           color: meta.color,
-                          height: `${Math.random() * 100}%`,
+                          height: `${((i * 7) % 10) * 10 + 10}%`,
                           animationName: 'wave',
-                          animationDuration: `${0.5 + Math.random()}s`,
+                          animationDuration: `${0.5 + ((i * 3) % 10) / 10}s`,
                           animationIterationCount: 'infinite',
                           animationDirection: 'alternate'
                         }}
@@ -146,15 +146,15 @@ export default function Dashboard() {
               
               {loading ? (
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-[var(--clr-bg-root)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center h-24">
+                  <div className="bg-[var(--clr-bg-elevated)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center h-24">
                     <div className="skeleton w-12 h-7 mb-2" />
                     <div className="skeleton w-16 h-3" />
                   </div>
-                  <div className="bg-[var(--clr-bg-root)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center h-24">
+                  <div className="bg-[var(--clr-bg-elevated)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center h-24">
                     <div className="skeleton w-12 h-7 mb-2" />
                     <div className="skeleton w-16 h-3" />
                   </div>
-                  <div className="bg-[var(--clr-bg-root)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center col-span-2 h-20">
+                  <div className="bg-[var(--clr-bg-elevated)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center col-span-2 h-20">
                     <div className="flex w-full justify-between items-center mb-2">
                       <div className="skeleton w-28 h-3" />
                       <div className="skeleton w-8 h-3" />
@@ -164,17 +164,17 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4 animate-fade-in">
-                  <div className="bg-[var(--clr-bg-root)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center">
+                  <div className="bg-[var(--clr-bg-elevated)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center">
                     <p className="text-3xl font-display font-bold text-[var(--clr-text)]">{totalCommands}</p>
                     <p className="text-xs text-[var(--clr-text-muted)] font-medium uppercase tracking-wider mt-1">Total Cmds</p>
                   </div>
                   
-                  <div className="bg-[var(--clr-bg-root)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center">
+                  <div className="bg-[var(--clr-bg-elevated)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center">
                     <p className="text-3xl font-display font-bold text-[var(--clr-success)]">{successRate}%</p>
                     <p className="text-xs text-[var(--clr-text-muted)] font-medium uppercase tracking-wider mt-1">Success Rate</p>
                   </div>
 
-                  <div className="bg-[var(--clr-bg-root)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center col-span-2">
+                  <div className="bg-[var(--clr-bg-elevated)] p-4 rounded-xl border border-[var(--clr-border)] flex flex-col items-center justify-center text-center col-span-2">
                     <div className="flex w-full justify-between items-end mb-2">
                       <p className="text-xs text-[var(--clr-text-muted)] font-medium uppercase tracking-wider">High Confidence NLP</p>
                       <p className="text-sm font-bold text-[var(--clr-primary)]">{highConfRate}%</p>
@@ -200,7 +200,7 @@ export default function Dashboard() {
               <ul className="space-y-3">
                 <li className="flex justify-between items-center text-sm border-b border-[var(--clr-border)] pb-2">
                   <span className="text-[var(--clr-text-muted)]">Font Size</span>
-                  <span className="font-medium capitalize bg-[var(--clr-bg-root)] px-2 py-0.5 rounded text-xs">{settings.fontSize}</span>
+                  <span className="font-medium capitalize bg-[var(--clr-bg-elevated)] px-2 py-0.5 rounded text-xs">{settings.fontSize}</span>
                 </li>
                 <li className="flex justify-between items-center text-sm border-b border-[var(--clr-border)] pb-2">
                   <span className="text-[var(--clr-text-muted)]">High Contrast</span>
@@ -222,7 +222,7 @@ export default function Dashboard() {
                 </li>
                 <li className="flex justify-between items-center text-sm">
                   <span className="text-[var(--clr-text-muted)]">Focus Indicators</span>
-                  <span className="font-medium capitalize bg-[var(--clr-bg-root)] px-2 py-0.5 rounded text-xs">{settings.focusIndicators}</span>
+                  <span className="font-medium capitalize bg-[var(--clr-bg-elevated)] px-2 py-0.5 rounded text-xs">{settings.focusIndicators}</span>
                 </li>
               </ul>
             </section>
@@ -237,7 +237,7 @@ export default function Dashboard() {
                   <Clock size={18} className="text-[#a855f7]" />
                   <h2 className="font-bold text-lg">Command History</h2>
                 </div>
-                <div className="text-xs px-3 py-1 bg-[var(--clr-bg-root)] rounded-full border border-[var(--clr-border)] text-[var(--clr-text-muted)] font-medium">
+                <div className="text-xs px-3 py-1 bg-[var(--clr-bg-elevated)] rounded-full border border-[var(--clr-border)] text-[var(--clr-text-muted)] font-medium">
                   Showing last {history.length}
                 </div>
               </div>
@@ -254,8 +254,8 @@ export default function Dashboard() {
                   ))}
                 </div>
               ) : history.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-[var(--clr-border)] rounded-2xl bg-slate-900/20 animate-fade-in">
-                  <div className="w-16 h-16 rounded-full bg-slate-900/60 flex items-center justify-center text-[var(--clr-text-faint)] border border-[var(--clr-border)] mb-4 mic-btn-idle" aria-hidden="true">
+                <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-[var(--clr-border)] rounded-xl bg-[var(--clr-bg-elevated)] animate-fade-in">
+                  <div className="w-16 h-16 rounded-full bg-[var(--clr-bg-card)] flex items-center justify-center text-[var(--clr-text-faint)] border border-[var(--clr-border)] mb-4 mic-btn-idle shadow-sm" aria-hidden="true">
                     <Mic size={24} className="text-[var(--clr-primary)]" />
                   </div>
                   <h3 className="font-bold text-base text-[var(--clr-text)] mb-2">No Voice Commands Yet</h3>
@@ -284,7 +284,7 @@ export default function Dashboard() {
                       {history.map((entry) => (
                         <tr 
                           key={entry.id} 
-                          className="border-b border-[var(--clr-border)] hover:bg-[var(--clr-bg-root)] transition-colors group"
+                          className="border-b border-[var(--clr-border)] hover:bg-[var(--clr-bg-elevated)] transition-colors group"
                         >
                           <td className="py-3 px-4 text-xs font-mono text-[var(--clr-text-faint)] whitespace-nowrap">
                             {formatTime(entry.timestamp)}

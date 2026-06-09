@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useRef, useCallback, us
 import { useNavigate } from 'react-router-dom';
 import { useAccessibility, LANGUAGE_OPTIONS } from './AccessibilityContext';
 import '../utils/domExecutor';
-import { findWebsite, getFeaturedWebsites } from '../utils/websiteDatabase';
+import { findWebsite } from '../utils/websiteDatabase';
 
 /* ═══════════════════════════════════════════════════════════════════
    LANGUAGE MAPPING
@@ -144,6 +144,7 @@ const SCROLL_DIR_MAP = {
   up:     ['up', 'higher', 'above', 'raise'],
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const COMMANDS = [
   {
     phrases: [
@@ -195,6 +196,16 @@ export const COMMANDS = [
       'डॅशबोर्ड उघडा', 'आकडेवारी दाखवा',
     ],
     action: 'navigate', target: '/dashboard', label: 'Open Dashboard',  icon: '📊', category: 'Navigation',
+  },
+  {
+    phrases: [
+      'open demo', 'go to demo', 'demo page', 'navigate to demo', 'show demo', 'live demo', 'go to live demo', 'open live demo', 'interactive demo',
+      // Hindi
+      'डेमो खोलो', 'डेमो पेज', 'लाइव डेमो',
+      // Marathi
+      'डेमो उघडा', 'लाइव्ह डेमो',
+    ],
+    action: 'navigate', target: '/demo', label: 'Open Live Demo', icon: '🎮', category: 'Navigation',
   },
   {
     phrases: [
@@ -437,6 +448,7 @@ function matchCommand(rawText) {
   return null;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const STATUS = {
   idle:       'idle',
   requesting: 'requesting',
@@ -446,6 +458,7 @@ export const STATUS = {
   error:      'error',
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const STATUS_META = {
   idle:       { label: 'Click mic or press Alt+V',  color: 'var(--clr-text-faint)',   bg: 'var(--clr-bg-elevated)'   },
   requesting: { label: 'Requesting mic access…',    color: 'var(--clr-warning)',       bg: 'rgba(251,191,36,0.08)'    },
@@ -486,9 +499,14 @@ export function VoiceProvider({ children }) {
   const [confidence, setConfidence]   = useState(null);
   const [history, dispatchHistory]    = useReducer(historyReducer, []);
   const [lastCommand, setLastCommand] = useState(null);
-  const [continuous, setContinuous]   = useState(false);
+  const [continuous, setContinuous]   = useState(true);
   const [ttsEnabled, setTtsEnabled]   = useState(true);
   const [isSpeaking, setIsSpeaking]   = useState(false);
+  const isSpeakingRef = useRef(false);
+  useEffect(() => {
+    isSpeakingRef.current = isSpeaking;
+  }, [isSpeaking]);
+  const activeUtterancesRef = useRef([]);
   const [toast, setToast]             = useState(null);
 
   const [pendingAction, _setPendingAction] = useState(null);
@@ -525,6 +543,8 @@ export function VoiceProvider({ children }) {
   }, []);
 
   const toastTimer    = useRef(null);
+  const startListeningRef = useRef(null);
+  const processCommandRef = useRef(null);
 
   const showToast = useCallback((msg, type = 'info', duration = 3500) => {
     setToast({ msg, type, id: Date.now() });
@@ -538,18 +558,23 @@ export function VoiceProvider({ children }) {
       stream.getTracks().forEach(track => track.stop());
       setMicPermission('granted');
       setShowMicModal(false);
+      // Auto-start listening now that permission is confirmed
+      setTimeout(() => startListeningRef.current?.(), 300);
       return true;
-    } catch (err) {
+    } catch {
       setMicPermission('denied');
       showToast('Microphone access denied. Please allow microphone permissions in your browser.', 'error', 5000);
       return false;
     }
   }, [showToast]);
 
-  const recogniserRef = useRef(null);
-  const statusRef     = useRef(status);
-  const successTimer  = useRef(null);
+  const recogniserRef     = useRef(null);
+  const statusRef         = useRef(status);
+  const successTimer      = useRef(null);
+  const continuousRef     = useRef(true);   // mirrors continuous state inside closures
+  const wantsListeningRef = useRef(false);  // true while user actively wants mic on
 
+  useEffect(() => { continuousRef.current = continuous; }, [continuous]);
   useEffect(() => { statusRef.current = status; }, [status]);
 
   useEffect(() => () => {
@@ -566,15 +591,29 @@ export function VoiceProvider({ children }) {
     utter.rate  = 1.0;
     utter.pitch = 1.0;
     utter.lang  = langRef.current;
-    utter.onstart = () => setIsSpeaking(true);
-    utter.onend   = () => setIsSpeaking(false);
-    utter.onerror = () => setIsSpeaking(false);
+    utter.onstart = () => {
+      isSpeakingRef.current = true;
+      setIsSpeaking(true);
+    };
+    utter.onend = () => {
+      isSpeakingRef.current = false;
+      setIsSpeaking(false);
+      activeUtterancesRef.current = [];
+    };
+    utter.onerror = () => {
+      isSpeakingRef.current = false;
+      setIsSpeaking(false);
+      activeUtterancesRef.current = [];
+    };
+    activeUtterancesRef.current = [utter];
     window.speechSynthesis.speak(utter);
   }, [ttsEnabled]);
 
   const stopSpeaking = useCallback(() => {
     window.speechSynthesis?.cancel();
+    isSpeakingRef.current = false;
     setIsSpeaking(false);
+    activeUtterancesRef.current = [];
   }, []);
 
   const confirmPendingAction = useCallback(() => {
@@ -604,7 +643,11 @@ export function VoiceProvider({ children }) {
     showToast(`📂 Opened ${action.site.label}`, 'success');
     speak(getSpokenText(lang, 'opening', action.site.label));
     setStatus(STATUS.success);
-    setTimeout(() => setStatus(STATUS.idle), 1500);
+    setTimeout(() => {
+      if (statusRef.current === STATUS.success) {
+        setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
+      }
+    }, 1500);
   }, [showToast, speak, settings.language]);
 
   const cancelPendingAction = useCallback(() => {
@@ -614,7 +657,7 @@ export function VoiceProvider({ children }) {
     setPendingAction(null);
     showToast('❌ Cancelled opening website', 'info');
     speak(getSpokenText(settings.language || 'en', 'cancelled'));
-    setStatus(STATUS.idle);
+    setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
   }, [showToast, speak, settings.language]);
 
   const searchGoogleFallback = useCallback(() => {
@@ -645,7 +688,11 @@ export function VoiceProvider({ children }) {
     showToast(`🔍 Searching Google for "${action.query}"`, 'success');
     speak(getSpokenText(lang, 'searchingGoogle', action.query));
     setStatus(STATUS.success);
-    setTimeout(() => setStatus(STATUS.idle), 1500);
+    setTimeout(() => {
+      if (statusRef.current === STATUS.success) {
+        setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
+      }
+    }, 1500);
   }, [showToast, speak, settings.language]);
 
   const readPage = useCallback(() => {
@@ -659,9 +706,13 @@ export function VoiceProvider({ children }) {
     clone.querySelectorAll('[aria-hidden="true"], script, style, .sr-only, nav').forEach(el => el.remove());
     const text = clone.textContent?.replace(/\s+/g, ' ').trim();
     if (!text) { showToast('No readable text found on this page.', 'error'); return; }
+    
     stopSpeaking();
+
     const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
     const CHUNK = 3;
+    const utterances = [];
+
     for (let i = 0; i < sentences.length; i += CHUNK) {
       const chunk = sentences.slice(i, i + CHUNK).join(' ').trim();
       if (!chunk) continue;
@@ -669,23 +720,51 @@ export function VoiceProvider({ children }) {
       utter.rate  = 1.0;
       utter.pitch = 1.0;
       utter.lang  = langRef.current;
-      if (i === 0)                     utter.onstart = () => setIsSpeaking(true);
-      if (i + CHUNK >= sentences.length) utter.onend = () => setIsSpeaking(false);
-      utter.onerror = () => setIsSpeaking(false);
-      window.speechSynthesis.speak(utter);
+      utterances.push(utter);
     }
+
+    if (utterances.length === 0) {
+      showToast('No readable text found on this page.', 'error');
+      return;
+    }
+
+    activeUtterancesRef.current = utterances;
+
+    // Attach start event to the first utterance
+    utterances[0].onstart = () => setIsSpeaking(true);
+
+    // Attach end event to the last utterance
+    const lastUtter = utterances[utterances.length - 1];
+    lastUtter.onend = () => {
+      setIsSpeaking(false);
+      activeUtterancesRef.current = [];
+    };
+
+    // Attach error handler to all utterances
+    utterances.forEach(u => {
+      u.onerror = () => {
+        setIsSpeaking(false);
+        activeUtterancesRef.current = [];
+      };
+    });
+
+    // Speak all of them sequentially
+    utterances.forEach(u => {
+      window.speechSynthesis.speak(u);
+    });
+
     showToast('📖 Reading page content aloud…', 'info', 4000);
   }, [showToast, stopSpeaking]);
 
   const stopListening = useCallback(() => {
-    recogniserRef.current?.stop();
+    wantsListeningRef.current = false;
+    // Use abort() so Chrome fires onerror('aborted') which we silently ignore,
+    // preventing the onend handler from triggering another restart cycle.
+    try { recogniserRef.current?.abort(); } catch { /* ignore */ }
     recogniserRef.current = null;
     setStatus(STATUS.idle);
     setInterimText('');
   }, []);
-
-  const startListeningRef = useRef(null);
-  const processCommandRef = useRef(null);
 
   const processCommand = useCallback((text, conf = null) => {
     const lower = text.toLowerCase().trim();
@@ -695,6 +774,22 @@ export function VoiceProvider({ children }) {
     const lang = settings.language || 'en';
 
     setTimeout(() => {
+      const currentlySpeaking = (window.speechSynthesis && window.speechSynthesis.speaking) || isSpeakingRef.current;
+      
+      // If we are currently speaking/reading, we only allow stop commands.
+      // Any other speech input (such as microphone feedback from the text being read) should be silently ignored.
+      if (currentlySpeaking) {
+        const match = matchCommand(lower);
+        if (match && (match.cmd.action === 'stopreading' || match.cmd.action === 'stop')) {
+          // Allow stop commands to proceed
+        } else {
+          // Silently ignore feedback and noise, keep listening
+          setStatus(STATUS.listening);
+          setInterimText('');
+          return;
+        }
+      }
+
       // 0. Intercept if there is a pending confirmation action
       if (pendingActionRef.current) {
         const action = pendingActionRef.current;
@@ -813,7 +908,11 @@ export function VoiceProvider({ children }) {
                     setLastCommand(entry);
                     showToast(`📂 Opened ${prev.site.label}`, 'success');
                     setStatus(STATUS.success);
-                    setTimeout(() => setStatus(STATUS.idle), 1500);
+                    setTimeout(() => {
+                      if (statusRef.current === STATUS.success) {
+                        setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
+                      }
+                    }, 1500);
                     return null;
                   }
                   return { ...prev, timeLeft: prev.timeLeft - 1 };
@@ -863,45 +962,49 @@ export function VoiceProvider({ children }) {
             showToast(`🔍 Searching Google for "${target}"`, 'success');
             speak(getSpokenText(lang, 'searchingGoogle', target));
             setStatus(STATUS.success);
-            setTimeout(() => setStatus(STATUS.idle), 1500);
+            setTimeout(() => {
+              if (statusRef.current === STATUS.success) {
+                setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
+              }
+            }, 1500);
             return;
           }
         }
       }
 
       if (dynamicAction) {
-        let success = false;
+        let success;
         
         if (dynamicAction === 'SEARCH') {
           const searchEl = document.querySelector('input[type="search"], input[name*="search"], input[id*="search"], input[placeholder*="search"]');
           if (searchEl) {
-            window.dispatchEvent(new CustomEvent('voicenav:action', { 
+            window.dispatchEvent(new CustomEvent('tycs:action', { 
               detail: { action: 'FOCUS', target: 'search' } 
             }));
             setTimeout(() => {
-              window.dispatchEvent(new CustomEvent('voicenav:action', { 
+              window.dispatchEvent(new CustomEvent('tycs:action', { 
                 detail: { action: 'TYPE', value: dynamicValue } 
               }));
               setTimeout(() => {
-                window.dispatchEvent(new CustomEvent('voicenav:action', { 
+                window.dispatchEvent(new CustomEvent('tycs:action', { 
                   detail: { action: 'SUBMIT' } 
                 }));
               }, 300);
             }, 300);
             success = true;
           } else {
-            window.dispatchEvent(new CustomEvent('voicenav:action', { 
+            window.dispatchEvent(new CustomEvent('tycs:action', { 
               detail: { action: 'FOCUS', target: 'search' } 
             }));
             setTimeout(() => {
-              window.dispatchEvent(new CustomEvent('voicenav:action', { 
+              window.dispatchEvent(new CustomEvent('tycs:action', { 
                 detail: { action: 'TYPE', value: dynamicValue } 
               }));
             }, 300);
             success = true;
           }
         } else {
-          const event = new CustomEvent('voicenav:action', { 
+          const event = new CustomEvent('tycs:action', { 
             detail: { action: dynamicAction, target: dynamicTarget, value: dynamicValue } 
           });
           window.dispatchEvent(event);
@@ -935,7 +1038,7 @@ export function VoiceProvider({ children }) {
 
         successTimer.current = setTimeout(() => {
           if (statusRef.current === STATUS.success || statusRef.current === STATUS.error) {
-            setStatus(STATUS.idle);
+            setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
           }
         }, 1500);
 
@@ -981,16 +1084,16 @@ export function VoiceProvider({ children }) {
         } else if (cmd.action === 'help') {
           showToast('Showing available commands', 'info');
           speak(getConfirm(lang, 'help'));
-          window.dispatchEvent(new Event('voicenav:help'));
+          window.dispatchEvent(new Event('tycs:help'));
         } else if (cmd.action === 'palette') {
           showToast('\u2318 Opening Command Palette…', 'info', 2000);
           speak('Opening command palette');
-          setTimeout(() => window.dispatchEvent(new Event('voicenav:palette')), 400);
+          setTimeout(() => window.dispatchEvent(new Event('tycs:palette')), 400);
         } else if (cmd.action === 'stop') {
           stopListening();
           speak(getConfirm(lang, 'stop'));
         } else if (cmd.action === 'repeat') {
-          if (lastCommand) { processCommand(lastCommand.text); }
+          if (lastCommand) { processCommandRef.current?.(lastCommand.text); }
           else { showToast('No previous command to repeat', 'info'); speak(getConfirm(lang, 'repeat')); }
           return;
         } else if (cmd.action === 'clear') {
@@ -1008,7 +1111,9 @@ export function VoiceProvider({ children }) {
         setLastCommand(entry);
         setStatus(STATUS.success);
         successTimer.current = setTimeout(() => {
-          if (statusRef.current === STATUS.success) setStatus(STATUS.idle);
+          if (statusRef.current === STATUS.success) {
+            setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
+          }
         }, 1500);
 
       } else {
@@ -1036,19 +1141,18 @@ export function VoiceProvider({ children }) {
         speak(getConfirm(lang, 'sorry'));
         setStatus(STATUS.error);
         setTimeout(() => {
-          if (statusRef.current === STATUS.error) setStatus(STATUS.idle);
+          if (statusRef.current === STATUS.error) {
+            setStatus(wantsListeningRef.current ? STATUS.listening : STATUS.idle);
+          }
         }, 2000);
       }
     }, 300);
   }, [navigate, showToast, stopListening, lastCommand, speak, readPage, stopSpeaking, settings.language, confirmPendingAction, cancelPendingAction, searchGoogleFallback]);
 
-  useEffect(() => {
-    startListeningRef.current = startListening;
-    processCommandRef.current = processCommand;
-  }, [startListening, processCommand]);
+  const fatalErrorRef = useRef(false); // prevents restart after fatal errors
 
   const startListening = useCallback(() => {
-    if (statusRef.current === STATUS.listening) { stopListening(); return; }
+    if (wantsListeningRef.current) { stopListening(); return; }
 
     if (!SpeechRec) {
       showToast('Web Speech API not supported. Use Chrome or Edge.', 'error', 5000);
@@ -1060,59 +1164,101 @@ export function VoiceProvider({ children }) {
       return;
     }
 
+    wantsListeningRef.current = true;
+    fatalErrorRef.current = false;
     setStatus(STATUS.requesting);
     setInterimText('');
     setFinalText('');
     setConfidence(null);
 
-    const rec = new SpeechRec();
-    rec.continuous      = continuous;
-    rec.interimResults  = true;
-    rec.lang            = langRef.current;   // ← active language
-    rec.maxAlternatives = 3;
+    function createAndStartRecognizer() {
+      if (!wantsListeningRef.current || fatalErrorRef.current) return;
 
-    rec.onstart = () => setStatus(STATUS.listening);
+      const rec = new SpeechRec();
+      rec.continuous      = false; // Set to false to avoid Chrome's silent-death bug in continuous mode; our custom onend loop manages continuous restart.
+      rec.interimResults  = true;
+      rec.lang            = langRef.current;
+      rec.maxAlternatives = 3;
 
-    rec.onspeechstart = () => setInterimText('…');
-
-    rec.onresult = (e) => {
-      let interim = '';
-      let finalTranscript = '';
-      let conf = null;
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const result = e.results[i];
-        if (result.isFinal) { finalTranscript = result[0].transcript; conf = result[0].confidence; }
-        else                { interim = result[0].transcript; }
-      }
-      if (interim)         setInterimText(interim);
-      if (finalTranscript) {
+      rec.onstart = () => {
+        setStatus(STATUS.listening);
         setInterimText('');
-        processCommandRef.current?.(finalTranscript, conf);
-        if (!continuous) recogniserRef.current?.stop();
+      };
+
+      rec.onspeechstart = () => setInterimText('…');
+
+      rec.onresult = (e) => {
+        let interim = '';
+        let finalTranscript = '';
+        let conf = null;
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const result = e.results[i];
+          if (result.isFinal) { finalTranscript = result[0].transcript; conf = result[0].confidence; }
+          else                { interim = result[0].transcript; }
+        }
+        if (interim)         setInterimText(interim);
+        if (finalTranscript) {
+          setInterimText('');
+          processCommandRef.current?.(finalTranscript, conf);
+          if (!continuousRef.current) {
+            try { rec.abort(); } catch { /* ignore */ }
+          }
+        }
+      };
+
+      rec.onerror = (e) => {
+        if (e.error === 'aborted') return;
+        if (e.error === 'no-speech') { setInterimText(''); return; }
+        if (e.error === 'not-allowed' || e.error === 'permission-denied') {
+          fatalErrorRef.current = true;
+          wantsListeningRef.current = false;
+          setMicPermission('denied');
+          showToast('Microphone access denied. Check browser permissions.', 'error', 5000);
+          setStatus(STATUS.idle);
+          setInterimText('');
+          return;
+        }
+        if (e.error === 'audio-capture') {
+          fatalErrorRef.current = true;
+          wantsListeningRef.current = false;
+          showToast('No microphone detected. Please connect one and try again.', 'error', 5000);
+          setStatus(STATUS.idle);
+          setInterimText('');
+          return;
+        }
+        let msg = 'Speech recognition error. Retrying…';
+        if (e.error === 'network') msg = 'Network error — retrying speech recognition…';
+        showToast(msg, 'error', 3000);
+        setInterimText('');
+      };
+
+      rec.onend = () => {
+        if (!wantsListeningRef.current || !continuousRef.current || fatalErrorRef.current) {
+          setStatus(STATUS.idle);
+          setInterimText('');
+          return;
+        }
+        // Restart with a fresh instance — Chrome throws if you reuse an ended recognizer
+        setTimeout(createAndStartRecognizer, 300);
+      };
+
+      recogniserRef.current = rec;
+      try {
+        rec.start();
+      } catch {
+        wantsListeningRef.current = false;
+        showToast('Failed to start speech recognition. Please try again.', 'error');
+        setStatus(STATUS.idle);
       }
-    };
+    }
 
-    rec.onerror = (e) => {
-      let msg = 'Speech recognition error.';
-      if (e.error === 'not-allowed' || e.error === 'permission-denied') msg = 'Microphone access denied. Check browser permissions.';
-      else if (e.error === 'no-speech') msg = 'No speech detected. Please try again.';
-      else if (e.error === 'network')   msg = 'Network error. Check your internet connection.';
-      else if (e.error === 'aborted')   return;
-      showToast(msg, 'error', 4000);
-      setStatus(STATUS.error);
-      setInterimText('');
-      setTimeout(() => { if (statusRef.current === STATUS.error) setStatus(STATUS.idle); }, 2500);
-    };
-
-    rec.onend = () => {
-      if (statusRef.current === STATUS.listening) { setStatus(STATUS.idle); setInterimText(''); }
-      if (continuous && statusRef.current !== STATUS.idle) { try { rec.start(); } catch (_) { } }
-    };
-
-    recogniserRef.current = rec;
-    try { rec.start(); }
-    catch (err) { showToast('Failed to start speech recognition.', 'error'); setStatus(STATUS.idle); }
+    createAndStartRecognizer();
   }, [continuous, showToast, stopListening, micPermission]);
+
+  useEffect(() => {
+    startListeningRef.current = startListening;
+    processCommandRef.current = processCommand;
+  }, [startListening, processCommand]);
 
   // Global Alt+V hotkey
   useEffect(() => {
@@ -1146,6 +1292,7 @@ export function VoiceProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useVoice() {
   const ctx = useContext(VoiceContext);
   if (!ctx) throw new Error('useVoice must be used inside VoiceProvider');

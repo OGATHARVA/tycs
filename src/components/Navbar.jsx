@@ -2,12 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Mic, Menu, X, Radio } from 'lucide-react';
 import { useVoice, STATUS } from '../contexts/VoiceContext';
+import Logo from './Logo';
 
 const NAV_LINKS = [
-  { to: '/',         label: 'Home',      description: 'Go to the VoiceNav home page'     },
+  { to: '/',         label: 'Home',      description: 'Go to Tejyash Cyber Solutions home page'     },
   { to: '/demo',     label: 'Live Demo', description: 'Launch the interactive voice simulator' },
-  { to: '/dashboard',label: 'Dashboard', description: 'View VoiceNav dashboard and metrics' },
-  { to: '/about',    label: 'About',     description: 'Learn about VoiceNav and our team' },
+  { to: '/dashboard',label: 'Dashboard', description: 'View Tejyash Cyber Solutions dashboard and metrics' },
+  { to: '/about',    label: 'About',     description: 'Learn about Tejyash Cyber Solutions and our team' },
   { to: '/services', label: 'Services',  description: 'Explore our accessibility services' },
   { to: '/contact',  label: 'Contact',   description: 'Get in touch with us'              },
 ];
@@ -80,7 +81,7 @@ export default function Navbar() {
       role="banner"
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[var(--clr-bg-card)]/90 backdrop-blur-xl border-b border-[var(--clr-border)] shadow-lg'
+          ? 'bg-[var(--clr-bg-card)] border-b border-[var(--clr-border)] shadow-sm'
           : 'bg-transparent'
       }`}
     >
@@ -93,26 +94,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            aria-label="VoiceNav — Back to home"
-            className="flex items-center gap-2.5 group rounded-md"
+            aria-label="Tejyash Cyber Solutions — Back to home"
+            className="flex items-center group rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[var(--clr-primary)]"
           >
-            <div
-              className={`relative w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${
-                isListening
-                  ? 'bg-[var(--clr-error)] shadow-[0_0_12px_rgba(248,113,113,0.5)]'
-                  : 'bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] shadow-[var(--shadow-glow-primary)]'
-              }`}
-              aria-hidden="true"
-            >
-              <Radio size={16} className="text-white" />
-              {isListening && (
-                <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[var(--clr-error)] rounded-full border-2 border-[var(--clr-bg-card)] animate-pulse" />
-              )}
-            </div>
-            <span className="font-display font-bold text-lg tracking-tight">
-              <span className="gradient-text">Voice</span>
-              <span className="text-[var(--clr-text)]">Nav</span>
-            </span>
+            <Logo size="sm" showSlogan={false} />
           </Link>
 
           {/* Desktop Navigation */}
@@ -150,7 +135,7 @@ export default function Navbar() {
             <Link
               to="/contact"
               className="btn btn-primary text-sm py-2 px-4"
-              aria-label="Get started with VoiceNav"
+              aria-label="Get started with Tejyash Cyber Solutions"
             >
               <Mic size={15} aria-hidden="true" />
               Get Started
@@ -182,7 +167,7 @@ export default function Navbar() {
         <>
           {/* Backdrop */}
           <div
-            className="md:hidden fixed inset-0 top-16 bg-black/40 backdrop-blur-sm z-40"
+            className="md:hidden fixed inset-0 top-16 bg-black/20 z-40"
             aria-hidden="true"
             onClick={() => setMenuOpen(false)}
           />
@@ -219,7 +204,7 @@ export default function Navbar() {
                   to="/contact"
                   onClick={() => setMenuOpen(false)}
                   className="btn btn-primary w-full justify-center"
-                  aria-label="Get started with VoiceNav"
+                  aria-label="Get started with Tejyash Cyber Solutions"
                 >
                   <Mic size={15} aria-hidden="true" />
                   Get Started

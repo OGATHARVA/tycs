@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Mail, MapPin, Phone, Send, Mic, CheckCircle } from 'lucide-react';
 
 const CONTACT_INFO = [
-  { icon: Mail,   label: 'Email',   value: 'hello@voicenav.app',   href: 'mailto:hello@voicenav.app', ariaLabel: 'Send email to hello@voicenav.app' },
-  { icon: Phone,  label: 'Phone',   value: '+1 (800) VCE-VOICE',   href: 'tel:+18008238642',          ariaLabel: 'Call VoiceNav at +1 800 823 8642'  },
+  { icon: Mail,   label: 'Email',   value: 'hello@tycs.app',   href: 'mailto:hello@tycs.app', ariaLabel: 'Send email to hello@tycs.app' },
+  { icon: Phone,  label: 'Phone',   value: '+1 (800) VCE-VOICE',   href: 'tel:+18008238642',          ariaLabel: 'Call TYCS at +1 800 823 8642'  },
   { icon: MapPin, label: 'Address', value: 'San Francisco, CA USA', href: null,                        ariaLabel: null                                },
 ];
 
@@ -11,8 +11,7 @@ export default function Contact() {
   const [form, setForm]           = useState({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors]       = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const successRef                = useRef(null);
-  const firstErrorRef             = useRef(null);
+  const successRef               = useRef(null);
 
   const validate = () => {
     const e = {};
@@ -60,10 +59,10 @@ export default function Contact() {
     }`;
 
   return (
-    <main id="main-content" tabIndex="-1" aria-label="VoiceNav contact page">
+    <main id="main-content" tabIndex="-1" aria-label="TYCS contact page">
       {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="section pt-32 relative overflow-hidden" aria-labelledby="contact-hero-heading">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-sky-500/8 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+
         <div className="container text-center">
           <p className="text-xs font-semibold text-[var(--clr-accent)] uppercase tracking-widest mb-4" aria-hidden="true">Contact Us</p>
           <h1 id="contact-hero-heading" className="font-display text-4xl sm:text-5xl font-bold mb-6">
@@ -88,10 +87,10 @@ export default function Contact() {
                 {CONTACT_INFO.map(({ icon: Icon, label, value, href, ariaLabel }) => (
                   <li key={label} className="flex items-start gap-3">
                     <div
-                      className="w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)] flex items-center justify-center flex-shrink-0"
+                      className="w-9 h-9 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-[var(--clr-primary)] flex items-center justify-center flex-shrink-0"
                       aria-hidden="true"
                     >
-                      <Icon size={15} className="text-white" />
+                      <Icon size={15} />
                     </div>
                     <div>
                       <p className="text-xs text-[var(--clr-text-faint)] uppercase tracking-wide mb-0.5" aria-hidden="true">{label}</p>
@@ -115,7 +114,7 @@ export default function Contact() {
               </div>
 
               {/* Voice tip */}
-              <div className="card border-[var(--clr-primary)]/20 bg-[var(--clr-primary)]/5">
+              <div className="card border-blue-200 bg-blue-50/50 shadow-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <Mic size={15} className="text-[var(--clr-primary)]" aria-hidden="true" />
                   <p className="text-xs font-semibold text-[var(--clr-primary)]">Voice Tip</p>

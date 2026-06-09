@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mic, ArrowRight, Shield, Heart, Eye, Check, AlertCircle, Compass, Users, User, ArrowUpRight } from 'lucide-react';
+import { Mic, ArrowRight, Shield, Heart, Eye, Check, AlertCircle, Compass, Users, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const STATS = [
@@ -12,7 +12,7 @@ const SOLVED_GROUPS = [
   {
     icon: Eye,
     title: 'Blind & Visually Impaired',
-    desc: 'VoiceNav provides fully-voiced navigation, reading back page content and labels to enable independent browsing without traditional screen reader complexity.'
+    desc: 'TYCS provides fully-voiced navigation, reading back page content and labels to enable independent browsing without traditional screen reader complexity.'
   },
   {
     icon: Compass,
@@ -39,7 +39,7 @@ const TESTIMONIALS = [
     tag: "Blind / Low Vision"
   },
   {
-    quote: "As someone living with ALS, typing can be exhausting. VoiceNav lets me browse my favorite platforms entirely hands-free. It has returned a level of independence I thought was gone.",
+    quote: "As someone living with ALS, typing can be exhausting. TYCS lets me browse my favorite platforms entirely hands-free. It has returned a level of independence I thought was gone.",
     author: "Marcus T.",
     role: "Retired software engineer",
     tag: "Motor-Impaired"
@@ -60,7 +60,6 @@ function StatsCounter({ value, suffix, duration = 1500 }) {
     const end = parseFloat(value);
     if (isNaN(end)) return;
     
-    const isFloat = end % 1 !== 0;
     const increment = end / (duration / 16);
     let timer;
 
@@ -88,21 +87,17 @@ function StatsCounter({ value, suffix, duration = 1500 }) {
 
 export default function Landing() {
   return (
-    <main id="main-content" tabIndex="-1" className="page-transition min-h-screen" aria-label="VoiceNav landing page">
+    <main id="main-content" tabIndex="-1" className="page-transition min-h-screen" aria-label="TYCS landing page">
       {/* ── Hero Section ─────────────────────────────────────────── */}
       <section
         className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20"
         aria-labelledby="hero-heading"
       >
-        {/* Glow Effects */}
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-1/4 left-1/10 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/10 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-3xl" />
-        </div>
+
 
         <div className="container relative z-10 text-center">
           {/* Tagline */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-[var(--clr-border)] text-xs text-[var(--clr-text-muted)] mb-8 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--clr-bg-card)] border border-[var(--clr-border)] text-xs text-[var(--clr-text-muted)] mb-8 animate-fade-in shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[var(--clr-primary)] animate-pulse" aria-hidden="true" />
             Empowering Accessible Web Browsing
           </div>
@@ -119,7 +114,7 @@ export default function Landing() {
 
           {/* Paragraph */}
           <p className="max-w-2xl mx-auto text-lg sm:text-xl text-[var(--clr-text-muted)] mb-10 leading-relaxed animate-fade-in">
-            VoiceNav bridges the digital divide, allowing visually and motor-impaired users to navigate websites completely hands-free using natural spoken commands.
+            TYCS bridges the digital divide, allowing visually and motor-impaired users to navigate websites completely hands-free using natural spoken commands.
           </p>
 
           {/* CTA Group */}
@@ -151,7 +146,7 @@ export default function Landing() {
             <h2 className="sr-only">Accessibility Statistics</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left max-w-5xl mx-auto">
               {STATS.map((stat, idx) => (
-                <div key={idx} className="flex flex-col gap-2 p-6 bg-slate-900/30 rounded-2xl border border-[var(--clr-border)] hover:border-[var(--clr-border-hover)] transition-colors">
+                <div key={idx} className="flex flex-col gap-2 p-6 bg-[var(--clr-bg-card)] rounded-xl border border-[var(--clr-border)] shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-baseline gap-1">
                     <StatsCounter value={stat.value} suffix={stat.suffix} />
                   </div>
@@ -178,61 +173,61 @@ export default function Landing() {
               The Web is <span className="text-[var(--clr-error)]">Broken</span> for Millions
             </h2>
             <p className="text-[var(--clr-text-muted)] max-w-xl mx-auto">
-              How VoiceNav compares to traditional browsing interfaces for individuals with motor or visual limitations.
+              How TYCS compares to traditional browsing interfaces for individuals with motor or visual limitations.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* The Old Way */}
-            <div className="p-8 rounded-2xl border border-red-500/20 bg-red-950/5 flex flex-col justify-between">
+            <div className="p-8 rounded-xl border border-red-200 bg-red-50/30 flex flex-col justify-between">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs font-semibold mb-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-semibold mb-6">
                   <AlertCircle size={14} /> Traditional Browsing
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-[var(--clr-text)]">A Hostile Digital Environment</h3>
                 <ul className="flex flex-col gap-4">
                   <li className="flex items-start gap-3 text-sm text-[var(--clr-text-muted)]">
-                    <span className="w-5 h-5 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">×</span>
+                    <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">×</span>
                     <span><strong>Keyboard Fatigue:</strong> Blind users must press tab hundreds of times to find a single link.</span>
                   </li>
                   <li className="flex items-start gap-3 text-sm text-[var(--clr-text-muted)]">
-                    <span className="w-5 h-5 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">×</span>
+                    <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">×</span>
                     <span><strong>Mouse Dependency:</strong> Motor-impaired users find clicking small links or filling forms exhausting or impossible.</span>
                   </li>
                   <li className="flex items-start gap-3 text-sm text-[var(--clr-text-muted)]">
-                    <span className="w-5 h-5 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">×</span>
+                    <span className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">×</span>
                     <span><strong>Screen Reader Clutter:</strong> Heavy text-to-speech output creates overwhelming auditory clutter.</span>
                   </li>
                 </ul>
               </div>
-              <div className="mt-8 pt-6 border-t border-red-500/10 text-xs text-red-400/80">
+              <div className="mt-8 pt-6 border-t border-red-200 text-xs text-red-600/80">
                 Resulting in high bounce rates and complete digital exclusion.
               </div>
             </div>
 
-            {/* The VoiceNav Way */}
-            <div className="p-8 rounded-2xl border border-emerald-500/20 bg-emerald-950/5 flex flex-col justify-between">
+            {/* The TYCS Way */}
+            <div className="p-8 rounded-xl border border-emerald-200 bg-emerald-50/30 flex flex-col justify-between">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold mb-6">
-                  <Shield size={14} className="text-emerald-400" /> VoiceNav Empowered
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 text-xs font-semibold mb-6">
+                  <Shield size={14} className="text-emerald-600" /> TYCS Empowered
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-[var(--clr-text)]">Natural, Interactive Browsing</h3>
                 <ul className="flex flex-col gap-4">
                   <li className="flex items-start gap-3 text-sm text-[var(--clr-text-muted)]">
-                    <Check size={16} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <Check size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                     <span><strong>Natural Commands:</strong> Just say what you want: "Go to about", "scroll down", "show panel".</span>
                   </li>
                   <li className="flex items-start gap-3 text-sm text-[var(--clr-text-muted)]">
-                    <Check size={16} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <Check size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                     <span><strong>Interactive Feedback:</strong> Auditory status reports read active components out loud dynamically.</span>
                   </li>
                   <li className="flex items-start gap-3 text-sm text-[var(--clr-text-muted)]">
-                    <Check size={16} className="text-emerald-400 shrink-0 mt-0.5" />
+                    <Check size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                     <span><strong>Accessibility Panel:</strong> Integrated controls allow users to toggle contrast, font sizes, and spacing instantly.</span>
                   </li>
                 </ul>
               </div>
-              <div className="mt-8 pt-6 border-t border-emerald-500/10 text-xs text-emerald-400/80">
+              <div className="mt-8 pt-6 border-t border-emerald-200 text-xs text-emerald-700/80">
                 Opening the web to independent navigation with zero setups.
               </div>
             </div>
@@ -251,87 +246,86 @@ export default function Landing() {
               Everything You Need to <span className="gradient-text-animated">Navigate by Voice</span>
             </h2>
             <p className="text-[var(--clr-text-muted)] max-w-xl mx-auto">
-              A complete voice-first browsing stack — from navigation to DOM interaction to external websites.
+              Every feature is designed with inclusivity and power at the core.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" aria-label="TYCS feature list">
             {/* Feature 1 — Smart NLP */}
-            <div className="card p-6 bg-slate-900/40 border border-[var(--clr-border)] hover:border-sky-500/40 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-xl mb-4" aria-hidden="true">🧠</div>
+            <li className="card p-6 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] hover:border-[var(--clr-primary)] transition-all group">
+              <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-xl mb-4" aria-hidden="true">🧠</div>
               <h3 className="font-bold text-base mb-2 text-[var(--clr-text)]">3-Tier NLP Engine</h3>
               <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">Phrase matching → keyword intent → fuzzy token scoring. Understands casual speech, not just rigid commands.</p>
               <div className="flex flex-wrap gap-1.5 mt-auto">
                 {['"go home"', '"take me back"', '"scroll further"'].map(p => (
-                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400">{p}</span>
+                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-50 border border-blue-100 text-blue-600">{p}</span>
                 ))}
               </div>
-            </div>
+            </li>
 
             {/* Feature 2 — Browser Navigation */}
-            <div className="card p-6 bg-slate-900/40 border border-[var(--clr-border)] hover:border-violet-500/40 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-xl mb-4" aria-hidden="true">🌐</div>
+            <li className="card p-6 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] hover:border-[var(--clr-primary)] transition-all group">
+              <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-xl mb-4" aria-hidden="true">🌐</div>
               <h3 className="font-bold text-base mb-2 text-[var(--clr-text)]">Browser Shortcuts</h3>
               <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">50+ popular websites in a searchable grid. Say a site name and it opens in a new tab instantly. Google search fallback for anything not in the list.</p>
               <div className="flex flex-wrap gap-1.5 mt-auto">
                 {['"open YouTube"', '"open Gmail"', '"open GitHub"'].map(p => (
-                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-500/10 border border-violet-500/20 text-violet-400">{p}</span>
+                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-50 border border-violet-100 text-violet-600">{p}</span>
                 ))}
               </div>
-            </div>
+            </li>
 
             {/* Feature 3 — DOM Interaction */}
-            <div className="card p-6 bg-slate-900/40 border border-[var(--clr-border)] hover:border-emerald-500/40 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl mb-4" aria-hidden="true">🖱️</div>
+            <li className="card p-6 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] hover:border-[var(--clr-primary)] transition-all group">
+              <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-xl mb-4" aria-hidden="true">🖱️</div>
               <h3 className="font-bold text-base mb-2 text-[var(--clr-text)]">Universal DOM Control</h3>
               <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">Click buttons, focus inputs, type text, submit forms — all hands-free. Fuzzy matching finds the right element even with vague names.</p>
               <div className="flex flex-wrap gap-1.5 mt-auto">
                 {['"click login"', '"type hello"', '"submit form"'].map(p => (
-                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">{p}</span>
+                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 border border-emerald-100 text-emerald-600">{p}</span>
                 ))}
               </div>
-            </div>
+            </li>
 
             {/* Feature 4 — Command Palette */}
-            <div className="card p-6 bg-slate-900/40 border border-[var(--clr-border)] hover:border-amber-500/40 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl mb-4" aria-hidden="true">⌘</div>
+            <li className="card p-6 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] hover:border-[var(--clr-primary)] transition-all group">
+              <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-xl mb-4" aria-hidden="true">⌘</div>
               <h3 className="font-bold text-base mb-2 text-[var(--clr-text)]">Command Palette</h3>
               <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] font-mono text-xs">Ctrl+K</kbd> or say "open palette" to search and run any command instantly — keyboard and voice stay in sync.</p>
               <div className="flex flex-wrap gap-1.5 mt-auto">
                 {['Ctrl+K shortcut', 'Full command search', '50+ site shortcuts'].map(p => (
-                  <span key={p} className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400">{p}</span>
+                  <span key={p} className="text-[10px] px-2 py-0.5 rounded bg-amber-50 border border-amber-100 text-amber-600">{p}</span>
                 ))}
               </div>
-            </div>
+            </li>
 
             {/* Feature 5 — Multilingual */}
-            <div className="card p-6 bg-slate-900/40 border border-[var(--clr-border)] hover:border-pink-500/40 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-xl mb-4" aria-hidden="true">🗣️</div>
+            <li className="card p-6 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] hover:border-[var(--clr-primary)] transition-all group">
+              <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-xl mb-4" aria-hidden="true">🗣️</div>
               <h3 className="font-bold text-base mb-2 text-[var(--clr-text)]">Multilingual Support</h3>
               <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">Commands in English, Hindi, and Marathi with TTS feedback in the active language. Switch instantly via the Accessibility Panel.</p>
               <div className="flex flex-wrap gap-1.5 mt-auto">
                 {['🇺🇸 English', '🇮🇳 हिंदी', '🇮🇳 मराठी'].map(p => (
-                  <span key={p} className="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 border border-pink-500/20 text-pink-400">{p}</span>
+                  <span key={p} className="text-[10px] px-2 py-0.5 rounded bg-pink-50 border border-pink-100 text-pink-600">{p}</span>
                 ))}
               </div>
-            </div>
+            </li>
 
             {/* Feature 6 — Extension Ready */}
-            <div className="card p-6 bg-slate-900/40 border border-[var(--clr-border)] hover:border-cyan-500/40 transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-xl mb-4" aria-hidden="true">🔌</div>
+            <li className="card p-6 bg-[var(--clr-bg-card)] border border-[var(--clr-border)] hover:border-[var(--clr-primary)] transition-all group">
+              <div className="w-10 h-10 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-xl mb-4" aria-hidden="true">🔌</div>
               <h3 className="font-bold text-base mb-2 text-[var(--clr-text)]">Extension-Ready Architecture</h3>
-              <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">Built on <code className="text-xs font-mono text-cyan-400">CustomEvent</code> message-passing — the same pattern used by browser extension content scripts. Portable by design.</p>
+              <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-3">Built on <code className="text-xs font-mono text-blue-600">CustomEvent</code> message-passing — the same pattern used by browser extension content scripts. Portable by design.</p>
               <div className="flex flex-wrap gap-1.5 mt-auto">
-                {['voicenav:action', 'voicenav:help', 'voicenav:palette'].map(p => (
-                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">{p}</span>
+                {['tycs:action', 'tycs:help', 'tycs:palette'].map(p => (
+                  <span key={p} className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-50 border border-cyan-100 text-cyan-600">{p}</span>
                 ))}
               </div>
-            </div>
-
-          </div>
+            </li>
+          </ul>
         </div>
       </section>
+
 
       {/* ── Who We Empower ──────────────────────────────────────── */}
       <section
@@ -357,9 +351,9 @@ export default function Landing() {
               return (
                 <div
                   key={index}
-                  className="card p-8 flex flex-col gap-4 border border-[var(--clr-border)] bg-slate-900/40"
+                  className="card p-8 flex flex-col gap-4 border border-[var(--clr-border)] bg-[var(--clr-bg-card)]"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500/10 to-indigo-500/10 border border-[var(--clr-border)] flex items-center justify-center text-[var(--clr-primary)]" aria-hidden="true">
+                  <div className="w-12 h-12 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] flex items-center justify-center text-[var(--clr-primary)]" aria-hidden="true">
                     <Icon size={24} />
                   </div>
                   <h3 className="text-lg font-bold text-[var(--clr-text)]">{group.title}</h3>
@@ -373,7 +367,7 @@ export default function Landing() {
 
       {/* ── Testimonials / User Personas ────────────────────────── */}
       <section
-        className="section bg-slate-900/30 border-t border-b border-[var(--clr-border)]"
+        className="section bg-[var(--clr-bg-elevated)] border-t border-b border-[var(--clr-border)]"
         aria-labelledby="social-proof-heading"
       >
         <div className="container">
@@ -401,7 +395,7 @@ export default function Landing() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3 pt-6 border-t border-[var(--clr-border)]">
-                  <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-[var(--clr-primary)] font-bold text-sm" aria-hidden="true">
+                  <div className="w-10 h-10 rounded-full bg-[var(--clr-bg-card)] border border-[var(--clr-border)] flex items-center justify-center text-[var(--clr-primary)] font-bold text-sm" aria-hidden="true">
                     <User size={18} />
                   </div>
                   <div>
@@ -421,8 +415,7 @@ export default function Landing() {
         aria-labelledby="cta-heading"
       >
         <div className="container">
-          <div className="card text-center py-20 relative overflow-hidden bg-slate-900/50">
-            <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-indigo-500/5 pointer-events-none" aria-hidden="true" />
+          <div className="card text-center py-20 relative overflow-hidden bg-[var(--clr-bg-card)]">
             
             <h2
               id="cta-heading"

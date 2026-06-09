@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 /* ── Language options ────────────────────────────────────────────── */
+// eslint-disable-next-line react-refresh/only-export-components
 export const LANGUAGE_OPTIONS = [
   { code: 'en', label: 'English', native: 'English', bcp47: 'en-US', flag: '🇬🇧' },
   { code: 'hi', label: 'Hindi',   native: 'हिंदी',   bcp47: 'hi-IN', flag: '🇮🇳' },
@@ -31,14 +32,14 @@ const AccessibilityContext = createContext(null);
 export function AccessibilityProvider({ children }) {
   const [settings, setSettings] = useState(() => {
     try {
-      const saved = localStorage.getItem('voicenav-a11y');
+      const saved = localStorage.getItem('tycs-a11y');
       return saved ? { ...DEFAULTS, ...JSON.parse(saved) } : DEFAULTS;
     } catch { return DEFAULTS; }
   });
 
   /* Persist to localStorage */
   useEffect(() => {
-    try { localStorage.setItem('voicenav-a11y', JSON.stringify(settings)); }
+    try { localStorage.setItem('tycs-a11y', JSON.stringify(settings)); }
     catch { /* ignore */ }
   }, [settings]);
 
@@ -79,6 +80,7 @@ export function AccessibilityProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAccessibility() {
   const ctx = useContext(AccessibilityContext);
   if (!ctx) throw new Error('useAccessibility must be used inside AccessibilityProvider');

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Radio, ExternalLink, Share2, Globe, Heart, ArrowUp, ShieldCheck, Cpu, Award } from 'lucide-react';
+import Logo from './Logo';
 
 const FOOTER_LINKS = {
   Navigation: [
@@ -53,7 +54,7 @@ export default function Footer() {
             </div>
             <div className="w-px h-10 bg-[var(--clr-border)] hidden sm:block" aria-hidden="true" />
             <div className="flex flex-col gap-1">
-              <span className="text-xl sm:text-2xl font-bold font-display text-[var(--clr-success)]">98.6%</span>
+              <span className="text-xl sm:text-2xl font-bold font-display text-[var(--clr-success)]">70%</span>
               <span className="text-xs text-[var(--clr-text-muted)] font-semibold uppercase tracking-wider">NLU Command accuracy</span>
             </div>
             <div className="w-px h-10 bg-[var(--clr-border)] hidden sm:block" aria-hidden="true" />
@@ -88,17 +89,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" aria-label="VoiceNav Home" className="flex items-center gap-2.5 mb-4 w-fit">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-br from-[var(--clr-primary-dim)] to-[var(--clr-accent-dim)]">
-                <Radio size={16} className="text-white" aria-hidden="true" />
-              </div>
-              <span className="font-display font-bold text-lg">
-                <span className="gradient-text">Voice</span>
-                <span className="text-[var(--clr-text)]">Nav</span>
-              </span>
+            <Link to="/" aria-label="Tejyash Cyber Solutions Home" className="flex items-center gap-2.5 mb-4 w-fit">
+              <Logo size="md" showSlogan={true} />
             </Link>
             <p className="text-sm text-[var(--clr-text-muted)] leading-relaxed mb-5">
-              Making the web accessible to everyone through intuitive, natural voice navigation.
+              Making the web accessible to everyone through intuitive, natural voice navigation. Tejyash Cyber Solutions — Tech to the Rescue.
             </p>
             <div className="flex items-center gap-2">
               {SOCIALS.map(({ icon: Icon, href, label }) => (
@@ -153,7 +148,7 @@ export default function Footer() {
 
         {/* ── Bottom Section: Copyright & Back to Top ───────────────── */}
         <div className="pt-6 border-t border-[var(--clr-border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--clr-text-faint)]">
-          <p>© {new Date().getFullYear()} VoiceNav. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Tejyash Cyber Solutions. All rights reserved.</p>
           
           <div className="flex items-center gap-6">
             <p className="flex items-center gap-1.5">
