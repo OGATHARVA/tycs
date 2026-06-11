@@ -5,7 +5,6 @@ import Logo from './Logo';
 const FOOTER_LINKS = {
   Navigation: [
     { to: '/',         label: 'Home'     },
-    { to: '/demo',     label: 'Live Demo' },
     { to: '/about',    label: 'About'    },
     { to: '/services', label: 'Services' },
     { to: '/contact',  label: 'Contact'  },

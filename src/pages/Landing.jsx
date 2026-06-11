@@ -31,26 +31,7 @@ const SOLVED_GROUPS = [
   }
 ];
 
-const TESTIMONIALS = [
-  {
-    quote: "Standard screen readers are often too slow and talkative. Being able to just tell the webpage to 'Go to Services' or 'Scroll Down' changes everything. It feels like a natural conversation.",
-    author: "Elena R.",
-    role: "Visually Impaired Advocate",
-    tag: "Blind / Low Vision"
-  },
-  {
-    quote: "As someone living with ALS, typing can be exhausting. TYCS lets me browse my favorite platforms entirely hands-free. It has returned a level of independence I thought was gone.",
-    author: "Marcus T.",
-    role: "Retired software engineer",
-    tag: "Motor-Impaired"
-  },
-  {
-    quote: "My joints ache when using the mouse for too long. With this, I just speak what I see. It's incredibly straightforward and doesn't require complex keyboard shortcuts.",
-    author: "Arthur L., 72",
-    role: "Grandfather & avid reader",
-    tag: "Elderly User"
-  }
-];
+
 
 function StatsCounter({ value, suffix, duration = 1500 }) {
   const [count, setCount] = useState(0);
@@ -124,12 +105,12 @@ export default function Landing() {
             aria-label="Hero actions"
           >
             <Link
-              to="/demo"
+              to="/services"
               className="btn btn-primary text-base py-3.5 px-8 flex items-center gap-2 group shadow-lg"
-              aria-label="Launch the live voice navigation demo"
+              aria-label="Explore our accessibility services"
             >
               <Mic size={18} aria-hidden="true" />
-              Launch Live Demo
+              Explore Services
               <ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
@@ -365,49 +346,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── Testimonials / User Personas ────────────────────────── */}
-      <section
-        className="section bg-[var(--clr-bg-elevated)] border-t border-b border-[var(--clr-border)]"
-        aria-labelledby="social-proof-heading"
-      >
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2
-              id="social-proof-heading"
-              className="font-display text-3xl sm:text-4xl font-bold mb-4"
-            >
-              What Users <span className="gradient-text-animated">Experience</span>
-            </h2>
-            <p className="text-[var(--clr-text-muted)] max-w-xl mx-auto">
-              Simulated user experiences highlighting the personal impact of hands-free web control.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {TESTIMONIALS.map((t, idx) => (
-              <div key={idx} className="card p-8 flex flex-col justify-between bg-[var(--clr-bg-card)] border border-[var(--clr-border)]">
-                <div>
-                  <span className="inline-block px-2.5 py-1 rounded bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-xs font-semibold text-[var(--clr-primary)] mb-6">
-                    {t.tag}
-                  </span>
-                  <p className="text-[var(--clr-text-muted)] text-sm italic leading-relaxed mb-6">
-                    "{t.quote}"
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 pt-6 border-t border-[var(--clr-border)]">
-                  <div className="w-10 h-10 rounded-full bg-[var(--clr-bg-card)] border border-[var(--clr-border)] flex items-center justify-center text-[var(--clr-primary)] font-bold text-sm" aria-hidden="true">
-                    <User size={18} />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-[var(--clr-text)]">{t.author}</h4>
-                    <p className="text-xs text-[var(--clr-text-muted)]">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── Ready to Try CTA ────────────────────────────────────── */}
       <section
@@ -424,24 +363,25 @@ export default function Landing() {
               Experience the Future of <span className="gradient-text-animated">Inclusive Web</span>
             </h2>
             <p className="text-[var(--clr-text-muted)] max-w-xl mx-auto mb-10 leading-relaxed">
-              Launch our voice simulator and experience navigating pages, filling dynamic inputs, and interacting with features entirely using your voice.
+              Experience navigating pages, filling dynamic inputs, and interacting with features entirely using your voice.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                to="/demo"
+                to="/services"
                 className="btn btn-primary text-base py-3.5 px-8 flex items-center gap-2 group"
-                aria-label="Try the voice controller interactive demo"
+                aria-label="Explore our accessibility services"
               >
                 <Mic size={18} aria-hidden="true" />
-                Launch Interactive Demo
+                Explore Services
                 <ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
-                to="/services"
+                to="/about"
                 className="btn btn-outline text-base py-3.5 px-8"
+                aria-label="Learn about our team"
               >
-                Explore Services
+                About Our Team
               </Link>
             </div>
           </div>

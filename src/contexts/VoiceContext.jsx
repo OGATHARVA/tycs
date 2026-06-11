@@ -199,16 +199,6 @@ export const COMMANDS = [
   },
   {
     phrases: [
-      'open demo', 'go to demo', 'demo page', 'navigate to demo', 'show demo', 'live demo', 'go to live demo', 'open live demo', 'interactive demo',
-      // Hindi
-      'डेमो खोलो', 'डेमो पेज', 'लाइव डेमो',
-      // Marathi
-      'डेमो उघडा', 'लाइव्ह डेमो',
-    ],
-    action: 'navigate', target: '/demo', label: 'Open Live Demo', icon: '🎮', category: 'Navigation',
-  },
-  {
-    phrases: [
       'go back', 'go backward', 'navigate back', 'take me back', 'previous page',
       // Hindi
       'वापस जाओ', 'पीछे जाओ', 'पिछला पृष्ठ', 'पीछे',
@@ -860,7 +850,7 @@ export function VoiceProvider({ children }) {
         const target = lower.replace(/^(open|launch|go to)\s+/, '').trim();
         // Check if it matches an internal route target in target map words first
         const isInternal = TARGET_MAP.some(t => t.words.some(w => target.includes(w) || w.includes(target))) || 
-                           ['home', 'about', 'services', 'contact', 'dashboard', 'demo', 'landing'].includes(target);
+                           ['home', 'about', 'services', 'contact', 'dashboard', 'landing'].includes(target);
                            
         if (!isInternal && target) {
           const res = findWebsite(target);
@@ -1207,25 +1197,32 @@ export function VoiceProvider({ children }) {
       };
 
       rec.onerror = (e) => {
+        console.error('Speech recognition error:', e.error, e);
         if (e.error === 'aborted') return;
         if (e.error === 'no-speech') { setInterimText(''); return; }
-        if (e.error === 'not-allowed' || e.error === 'permission-denied') {
+        
+        // Fatal errors that should stop recognition completely
+        const fatalErrors = ['not-allowed', 'permission-denied', 'audio-capture', 'service-not-allowed', 'language-not-supported', 'bad-grammar'];
+        
+        if (fatalErrors.includes(e.error)) {
           fatalErrorRef.current = true;
           wantsListeningRef.current = false;
-          setMicPermission('denied');
-          showToast('Microphone access denied. Check browser permissions.', 'error', 5000);
+          
+          if (e.error === 'not-allowed' || e.error === 'permission-denied') {
+            setMicPermission('denied');
+            showToast('Microphone access denied. Check browser permissions.', 'error', 5000);
+          } else if (e.error === 'audio-capture') {
+            showToast('No microphone detected or audio capture failed.', 'error', 5000);
+          } else {
+            showToast(`Speech recognition failed: ${e.error}`, 'error', 5000);
+          }
+          
           setStatus(STATUS.idle);
           setInterimText('');
           return;
         }
-        if (e.error === 'audio-capture') {
-          fatalErrorRef.current = true;
-          wantsListeningRef.current = false;
-          showToast('No microphone detected. Please connect one and try again.', 'error', 5000);
-          setStatus(STATUS.idle);
-          setInterimText('');
-          return;
-        }
+        
+        // Non-fatal errors (e.g. temporary network glitches)
         let msg = 'Speech recognition error. Retrying…';
         if (e.error === 'network') msg = 'Network error — retrying speech recognition…';
         showToast(msg, 'error', 3000);

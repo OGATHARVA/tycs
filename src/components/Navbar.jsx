@@ -6,7 +6,6 @@ import Logo from './Logo';
 
 const NAV_LINKS = [
   { to: '/',         label: 'Home',      description: 'Go to Tejyash Cyber Solutions home page'     },
-  { to: '/demo',     label: 'Live Demo', description: 'Launch the interactive voice simulator' },
   { to: '/dashboard',label: 'Dashboard', description: 'View Tejyash Cyber Solutions dashboard and metrics' },
   { to: '/about',    label: 'About',     description: 'Learn about Tejyash Cyber Solutions and our team' },
   { to: '/services', label: 'Services',  description: 'Explore our accessibility services' },

@@ -286,9 +286,9 @@ export function queryAssistant(rawQuery, context = {}) {
   }
   if (/\b(go to|navigate to|open|take me to|visit|load|show)\b.*\b(demo|live demo|interactive demo)\b/.test(query)) {
     return {
-      text: "Certainly! Let's load the Live Demo page.",
-      action: { type: 'navigate', route: '/demo' },
-      suggestions: ["Summarize Demo page", "How to use voice controls", "Go to Services"]
+      text: "The Live Demo page is no longer available. Let me redirect you to our Services page where you can see all our accessibility features.",
+      action: { type: 'navigate', route: '/services' },
+      suggestions: ["What voice commands are there?", "Go to About page", "Summarize Services"]
     };
   }
 
@@ -361,7 +361,7 @@ export function queryAssistant(rawQuery, context = {}) {
   if (pathname === '/about') {
     if (query.includes('team') || query.includes('staff') || query.includes('people') || query.includes('member')) {
       return {
-        text: "Our specialist team includes:\n\n- **Sarah Jenkins** (Lead Developer): Accessibility expert focusing on screen-reader and voice integrations.\n- **David Chen** (UX Designer): Focused on high-contrast palettes, clean layouts, and font hierarchies.\n- **Elena Rostova** (A11y Specialist): Directs regulatory compliance audits and WCAG standard checks.",
+        text: "Our specialist team includes:\n\n- **Atharva Bhosle** (Frontend UI/UX Designer, Speech Recognition): Designs and builds the voice navigation interfaces and Speech API integrations.\n- **Omkar** (Backend Engineer): Engineers robust server systems, services, and backend integration.",
         action: null,
         suggestions: ["What is the mission?", "What are the WCAG principles?", "Summarize this page"]
       };

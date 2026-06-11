@@ -31,10 +31,8 @@ const PRINCIPLES = [
 ];
 
 const TEAM = [
-  { name: 'Aria Chen',    role: 'Accessibility Lead',    initials: 'AC', description: 'Leads WCAG research and inclusive design' },
-  { name: 'Marcus Webb',  role: 'Voice AI Engineer',     initials: 'MW', description: 'Builds the Web Speech API integration' },
-  { name: 'Sofia Okafor', role: 'UX & Inclusion Design', initials: 'SO', description: 'Creates user-centered, inclusive interfaces' },
-  { name: 'Liam Patel',   role: 'Frontend Engineer',     initials: 'LP', description: 'Implements performant, accessible React components' },
+  { name: 'Atharva Bhosle', role: 'Frontend UI/UX Designer, Speech Recognition', initials: 'AB', description: 'Designs and builds the voice navigation interfaces and Speech API integrations.' },
+  { name: 'Omkar', role: 'Backend Engineer', initials: 'O', description: 'Engineers robust server systems, services, and backend integration.' }
 ];
 
 
@@ -163,7 +161,7 @@ export default function About() {
             Meet the <span className="gradient-text">Team</span>
           </h2>
           <ul
-            className="grid grid-cols-2 sm:grid-cols-4 gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl mx-auto"
             aria-label="TYCS team members"
           >
             {TEAM.map(({ name, role, initials, color, description }) => (

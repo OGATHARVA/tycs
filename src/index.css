@@ -6,55 +6,55 @@
   --font-sans:    'Inter', system-ui, sans-serif;
   --font-display: 'Inter', system-ui, sans-serif;
 
-  /* Brand palette — Tejyash Cyber Solutions */
-  --clr-bg:          #F5F5F5;
-  --clr-bg-card:     #FFFFFF;
-  --clr-bg-elevated: #F0F4F8;
-  --clr-surface:     rgba(255,255,255,0.80);
-  --clr-border:      #E2E8F0;
-  --clr-border-hover:#CBD5E1;
+  /* Brand palette — Tejyash Cyber Solutions styled as shadcn/ui light mode */
+  --clr-bg:          #fafafa; /* zinc-50 */
+  --clr-bg-card:     #ffffff; /* white */
+  --clr-bg-elevated: #f4f4f5; /* zinc-100 */
+  --clr-surface:     rgba(255,255,255,0.9);
+  --clr-border:      #e4e4e7; /* zinc-200 */
+  --clr-border-hover:#d4d4d8; /* zinc-300 */
 
-  --clr-primary:     #64BC3C;
-  --clr-primary-dim: #53A12F;
-  --clr-accent:      #00A8E1;
-  --clr-accent-dim:  #008BBB;
-  --clr-secondary:   #64748B;
-  --clr-success:     #64BC3C;
-  --clr-warning:     #F59E0B;
-  --clr-error:       #EF4444;
+  --clr-primary:     #18181b; /* zinc-900 */
+  --clr-primary-dim: #27272a; /* zinc-800 */
+  --clr-accent:      #64BC3C; /* brand green as accent */
+  --clr-accent-dim:  #53A12F;
+  --clr-secondary:   #71717a; /* zinc-500 */
+  --clr-success:     #10B981; /* emerald-500 */
+  --clr-warning:     #f59e0b; /* amber-500 */
+  --clr-error:       #ef4444; /* red-500 */
 
-  --clr-text:        #1F2937;
-  --clr-text-muted:  #64748B;
-  --clr-text-faint:  #94A3B8;
+  --clr-text:        #09090b; /* zinc-950 */
+  --clr-text-muted:  #71717a; /* zinc-500 */
+  --clr-text-faint:  #a1a1aa; /* zinc-400 */
 
-  /* Shadows — subtle */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md:  0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
-  --shadow-lg:  0 8px 24px rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.06);
-  --shadow-glow-primary: 0 4px 16px rgba(100, 188, 60, 0.20);
-  --shadow-glow-accent:  0 4px 16px rgba(0, 168, 225, 0.20);
-  --shadow-glow-success: 0 4px 12px rgba(100, 188, 60, 0.15);
+  /* Shadows — shadcn style */
+  --shadow-sm:  0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --shadow-glow-primary: 0 0 0 2px rgba(24, 24, 27, 0.1);
+  --shadow-glow-accent:  0 0 0 2px rgba(100, 188, 60, 0.15);
+  --shadow-glow-success: 0 0 0 2px rgba(16, 185, 129, 0.15);
 
-  /* Border radius — 8–12px as specified */
+  /* Border radius — shadcn style (0.5rem) */
   --radius-sm:  0.5rem;   /* 8px  */
-  --radius-md:  0.625rem; /* 10px */
-  --radius-lg:  0.75rem;  /* 12px */
-  --radius-xl:  1rem;
+  --radius-md:  0.5rem;   /* 8px */
+  --radius-lg:  0.5rem;   /* 8px */
+  --radius-xl:  0.75rem;  /* 12px */
   --radius-full: 9999px;
 
   /* Focus ring */
-  --focus-color: #64BC3C;
+  --focus-color: #18181b;
   --focus-width: 2px;
-  --focus-offset: 3px;
+  --focus-offset: 2px;
 
   /* Transitions */
-  --transition-fast:   150ms ease;
-  --transition-normal: 200ms ease;
-  --transition-slow:   350ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:   300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Gradients — minimal, only where needed */
-  --grad-primary: linear-gradient(135deg, #64BC3C, #53A12F);
-  --grad-accent:  linear-gradient(135deg, #00A8E1, #008BBB);
+  /* Gradients — clean solid colors matching shadcn/ui */
+  --grad-primary: linear-gradient(to bottom, #18181b, #27272a);
+  --grad-accent:  linear-gradient(to bottom, #64BC3C, #53A12F);
 }
 
 /* ─── Base Reset ─────────────────────────────────────────────────── */
@@ -168,7 +168,32 @@ h1, h2, h3, h4, h5, h6 {
 }
 .card:hover {
   border-color: var(--clr-border-hover);
-  box-shadow: var(--shadow-md);
+}
+
+/* ─── Form Controls (Shadcn Style) ───────────────────────────────── */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--clr-border);
+  background-color: var(--clr-bg-card);
+  padding: 0.5625rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--clr-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.08);
 }
 
 /* ─── Gradient text — only primary color ────────────────────────── */
@@ -324,37 +349,42 @@ h1, h2, h3, h4, h5, h6 {
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.4rem;
+  padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 0.875rem;
   cursor: pointer;
-  border: none;
-  transition: all var(--transition-normal);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
   text-decoration: none;
   white-space: nowrap;
   font-family: var(--font-sans);
 }
+.btn:hover {
+  transform: none;
+}
 .btn-primary {
   background: var(--clr-primary);
+  border-color: var(--clr-primary);
   color: #fff;
   box-shadow: var(--shadow-sm);
 }
 .btn-primary:hover {
   background: var(--clr-primary-dim);
-  box-shadow: var(--shadow-glow-primary);
-  transform: translateY(-1px);
+  border-color: var(--clr-primary-dim);
+  opacity: 0.9;
 }
 .btn-outline {
   background: transparent;
-  border: 1.5px solid var(--clr-border);
+  border-color: var(--clr-border);
   color: var(--clr-text);
 }
 .btn-outline:hover {
-  border-color: var(--clr-primary);
-  color: var(--clr-primary);
-  background: rgba(59,130,246,0.05);
+  background: var(--clr-bg-elevated);
+  border-color: var(--clr-border-hover);
+  color: var(--clr-text);
 }
 
 /* ─── Section spacing ───────────────────────────────────────────── */

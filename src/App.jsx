@@ -14,7 +14,6 @@ import WebsiteConfirmModal from './components/WebsiteConfirmModal';
 
 // Lazy load page components for better production performance
 const Landing   = lazy(() => import('./pages/Landing'));
-const Home      = lazy(() => import('./pages/Home'));
 const About     = lazy(() => import('./pages/About'));
 const Services  = lazy(() => import('./pages/Services'));
 const Contact   = lazy(() => import('./pages/Contact'));
@@ -33,7 +32,6 @@ function AppShell() {
           <div key={location.pathname} className="page-transition">
             <Routes location={location}>
               <Route path="/"          element={<Landing />}  />
-              <Route path="/demo"      element={<Home />}     />
               <Route path="/about"     element={<About />}    />
               <Route path="/services"  element={<Services />} />
               <Route path="/contact"   element={<Contact />}  />
