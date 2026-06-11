@@ -1,10 +1,7 @@
 import { useState, useRef } from 'react';
 import { Mail, MapPin, Phone, Send, Mic, CheckCircle } from 'lucide-react';
 
-const CONTACT_INFO = [
-  { icon: Mail, label: 'Email', value: 'hello@tycs.app', href: 'mailto:hello@tycs.app', ariaLabel: 'Send email to hello@tycs.app' },
-  { icon: MapPin, label: 'Address', value: 'San Francisco, CA USA', href: null, ariaLabel: null },
-];
+
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -72,59 +69,12 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* ── Form + Info ─────────────────────────────────────────── */}
+      {/* ── Form ─────────────────────────────────────────────────── */}
       <section className="section-sm pb-24" aria-labelledby="contact-form-heading">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            {/* Contact info sidebar */}
-            <aside aria-label="Contact information" className="lg:col-span-1">
-              <div className="card mb-5">
-                <h2 className="font-display text-lg font-bold text-[var(--clr-text)] mb-4">Get in Touch</h2>
-                <ul className="space-y-5" role="list">
-                  {CONTACT_INFO.map(({ icon: Icon, label, value, href, ariaLabel }) => (
-                    <li key={label} className="flex items-start gap-3">
-                      <div
-                        className="w-9 h-9 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)] text-[var(--clr-primary)] flex items-center justify-center flex-shrink-0"
-                        aria-hidden="true"
-                      >
-                        <Icon size={15} />
-                      </div>
-                      <div>
-                        <p className="text-xs text-[var(--clr-text-faint)] uppercase tracking-wide mb-0.5" aria-hidden="true">{label}</p>
-                        {href ? (
-                          <a
-                            href={href}
-                            aria-label={ariaLabel || value}
-                            className="text-sm text-[var(--clr-text)] hover:text-[var(--clr-primary)] transition-colors"
-                          >
-                            {value}
-                          </a>
-                        ) : (
-                          <address className="text-sm text-[var(--clr-text)] not-italic">
-                            <span className="sr-only">Address: </span>{value}
-                          </address>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Voice tip */}
-              <div className="card border-blue-200 bg-blue-50/50 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <Mic size={15} className="text-[var(--clr-primary)]" aria-hidden="true" />
-                  <p className="text-xs font-semibold text-[var(--clr-primary)]">Voice Tip</p>
-                </div>
-                <p className="text-xs text-[var(--clr-text-muted)] leading-relaxed">
-                  Press <kbd className="px-1.5 py-0.5 bg-[var(--clr-bg-elevated)] rounded font-mono">Alt+V</kbd> and say <strong className="text-[var(--clr-text)]">"Go to Contact"</strong> to navigate here by voice anytime.
-                </p>
-              </div>
-            </aside>
-
+          <div className="max-w-2xl mx-auto">
             {/* Form */}
-            <div className="lg:col-span-2">
+            <div>
               <div className="card">
                 <h2 id="contact-form-heading" className="font-display text-lg font-bold text-[var(--clr-text)] mb-6">
                   Send a Message

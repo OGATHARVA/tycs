@@ -43,45 +43,24 @@ export default function Footer() {
   return (
     <footer role="contentinfo" className="border-t border-[var(--clr-border)] bg-[var(--clr-bg-card)] pt-12 pb-6">
       <div className="container">
-        {/* ── Top Section: Stats & Badges ──────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-10 border-b border-[var(--clr-border)] mb-10 items-center">
-          {/* Stats Bar */}
-          <div className="lg:col-span-2 flex flex-wrap gap-6 sm:gap-10">
-            <div className="flex flex-col gap-1">
-              <span className="text-xl sm:text-2xl font-bold font-display text-[var(--clr-primary)]">5,000+</span>
-              <span className="text-xs text-[var(--clr-text-muted)] font-semibold uppercase tracking-wider">Voice commands processed</span>
-            </div>
-            <div className="w-px h-10 bg-[var(--clr-border)] hidden sm:block" aria-hidden="true" />
-            <div className="flex flex-col gap-1">
-              <span className="text-xl sm:text-2xl font-bold font-display text-[var(--clr-success)]">70%</span>
-              <span className="text-xs text-[var(--clr-text-muted)] font-semibold uppercase tracking-wider">NLU Command accuracy</span>
-            </div>
-            <div className="w-px h-10 bg-[var(--clr-border)] hidden sm:block" aria-hidden="true" />
-            <div className="flex flex-col gap-1">
-              <span className="text-xl sm:text-2xl font-bold font-display text-[var(--clr-accent)]">100%</span>
-              <span className="text-xs text-[var(--clr-text-muted)] font-semibold uppercase tracking-wider">Privacy & client-side security</span>
-            </div>
-          </div>
-
-          {/* Compliance Icons */}
-          <div className="flex items-center gap-4 justify-start lg:justify-end">
-            {COMPLIANCE_BADGES.map((badge, idx) => {
-              const Icon = badge.icon;
-              return (
-                <div
-                  key={idx}
-                  title={`${badge.title}: ${badge.desc}`}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)]"
-                >
-                  <Icon size={14} className="text-[var(--clr-primary)]" aria-hidden="true" />
-                  <div className="text-left">
-                    <p className="text-[10px] font-bold text-[var(--clr-text)] leading-none">{badge.title}</p>
-                    <p className="text-[8px] text-[var(--clr-text-muted)] leading-none mt-0.5">{badge.desc}</p>
-                  </div>
+        {/* ── Top Section: Compliance Badges ────────────────────────── */}
+        <div className="flex flex-wrap items-center justify-center gap-4 pb-10 border-b border-[var(--clr-border)] mb-10">
+          {COMPLIANCE_BADGES.map((badge, idx) => {
+            const Icon = badge.icon;
+            return (
+              <div
+                key={idx}
+                title={`${badge.title}: ${badge.desc}`}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--clr-bg-elevated)] border border-[var(--clr-border)]"
+              >
+                <Icon size={14} className="text-[var(--clr-primary)]" aria-hidden="true" />
+                <div className="text-left">
+                  <p className="text-[10px] font-bold text-[var(--clr-text)] leading-none">{badge.title}</p>
+                  <p className="text-[8px] text-[var(--clr-text-muted)] leading-none mt-0.5">{badge.desc}</p>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* ── Mid Section: Brand and Navigation Columns ───────────────── */}

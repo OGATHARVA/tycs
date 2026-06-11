@@ -26,16 +26,7 @@ const SERVICES = [
     desc: 'Hands-free traversal between all pages. Say "go to about", "go home", or "open contact" — TYCS handles the rest.',
     tags: ['React Router', 'SPA', 'Accessible'],
   },
-  {
-    icon: ShoppingCart,
-    title: 'E-Commerce Voice Checkout',
-    category: 'Commerce',
-    badge: 'New',
-    badgeColor: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
-    rating: 4,
-    desc: 'Complete entire checkout flows using only voice. Add items, apply coupons, and confirm orders without touching your keyboard.',
-    tags: ['Commerce', 'Forms', 'Voice Fill'],
-  },
+
   {
     icon: BookOpen,
     title: 'Voice-Assisted Reading',
