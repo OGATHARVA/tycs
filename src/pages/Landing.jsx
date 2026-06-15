@@ -346,7 +346,7 @@ export default function Landing() {
         </div>
       </section>
 
-
+  {/* Testimonials removed per request */}
 
       {/* ── Ready to Try CTA ────────────────────────────────────── */}
       <section

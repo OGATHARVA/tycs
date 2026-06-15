@@ -31,8 +31,8 @@ const PRINCIPLES = [
 ];
 
 const TEAM = [
-  { name: 'Atharva Bhosle', role: 'Frontend UI/UX Designer, Speech Recognition', initials: 'AB', description: 'Designs and builds the voice navigation interfaces and Speech API integrations.' },
-  { name: 'Omkar', role: 'Backend Engineer', initials: 'O', description: 'Engineers robust server systems, services, and backend integration.' }
+  { name: 'Atharva Bhosle', role: 'Frontend Engineer', initials: 'AB', description: 'Frontend development and accessible UI implementation' },
+  { name: 'Omkar Prajapati', role: 'Backend Engineer', initials: 'OP', description: 'Backend systems and API integrations' },
 ];
 
 

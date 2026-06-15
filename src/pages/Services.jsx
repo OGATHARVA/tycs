@@ -26,7 +26,6 @@ const SERVICES = [
     desc: 'Hands-free traversal between all pages. Say "go to about", "go home", or "open contact" — TYCS handles the rest.',
     tags: ['React Router', 'SPA', 'Accessible'],
   },
-
   {
     icon: BookOpen,
     title: 'Voice-Assisted Reading',
